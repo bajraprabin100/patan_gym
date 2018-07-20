@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateTrigger extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        DB::unprepared('CREATE TRIGGER tracking_update AFTER INSERT ON `booking_information` FOR EACH ROW
+                BEGIN
+                   INSERT INTO `tracking` (`tracking_id`, `user_id`, `created_at`, `updated_at`) VALUES (3, NEW.id, now(), null);
+                END');
+    }
+    public function down()
+    {
+        DB::unprepared('DROP TRIGGER `tracking_update`');
+    }
+}
