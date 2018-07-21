@@ -38,6 +38,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/user/package/selected', 'UserController@selectedPackage')->name('user.package.selected');
     Route::get('/user/list', 'UserController@userList')->name('user.list');
     Route::get('/user/bill_detail/{id}', 'UserController@billDetail')->name('user.bill_detail');
+    Route::get('/user/{id}/edit', 'UserController@editUser')->name('user.edit');
+    Route::post('/user/updateDetail', 'UserController@updateUser')->name('user.updateDetail');
+
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
         Route::post('bill_issue', ['uses' => 'UtilityController@billIssueStore', 'as' => 'bill_issue']);

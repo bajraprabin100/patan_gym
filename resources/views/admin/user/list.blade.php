@@ -24,7 +24,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Package List</h3>
+                            <h3 class="box-title">Users List</h3>
                         </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
@@ -56,8 +56,8 @@
                                                     data-toggle="dropdown">Action
                                                 <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                {{--<li><a href="#" data-id="{{$p->id}}" class="btn-edit">Edit</a>--}}
-                                                {{--</li>--}}
+                                                <li><a href="{{route('admin.user.edit',['id'=>$p->id,'token'=>$token])}}" data-id="{{$p->id}}" class="btn-edit">Edit</a>
+                                                </li>
                                                 {{--<li><a href="#" data-id="{{$p->id}}"--}}
                                                        {{--class="btn-delete">Delete</a></li>--}}
                                                 <li><a href="{{route('admin.user.bill_detail',['membership_no'=>$p->membership_no,'token'=>$token])}}" data-id="{{$p->membership_no}}"

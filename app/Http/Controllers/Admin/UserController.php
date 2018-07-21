@@ -656,7 +656,7 @@ class UserController extends DashboardController
                 } else {
                     $data['membership_no'] = 1;
                 }
-                $data['user_status']='Active';
+                $data['user_status'] = 'Active';
                 Member::create($data);
                 $bil_record = new BillsRecord();
                 $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
@@ -716,13 +716,41 @@ class UserController extends DashboardController
         return response()->json(['success' => true, 'message' => 'Bill record updated successfully', 'data' => null], 200);
     }
 
-    public function userList(){
+    public function userList()
+    {
         $this->admin_data['members'] = Member::orderby('id', 'desc')->get();
         return view('admin.user.list', $this->admin_data);
     }
-    public function billDetail(Request $request,$membership_no){
-        $this->admin_data['bill_detail']=BillsRecord::where('membership_no','=',$membership_no)->get();
-        return view('admin.user.bill_detail',$this->admin_data);
+
+    public function billDetail(Request $request, $membership_no)
+    {
+        $this->admin_data['bill_detail'] = BillsRecord::where('membership_no', '=', $membership_no)->get();
+        return view('admin.user.bill_detail', $this->admin_data);
+
+    }
+
+    public function editUser($id)
+    {
+        $this->admin_data['user'] = Member::find($id);
+        return view('admin.user.edit', $this->admin_data);
+    }
+    public function updateUser(Request $request)
+    {
+
+        $user =Member::where('membership_no','=', $request->membership_no)->first();
+
+        $user->name= $request->name;
+        $user->address= $request->address;
+        $user->user_valid_date= $request->user_valid_date;
+        $user->gender= $request->gender;
+        $user->admission_date= $request->admission_date;
+        $user->package_rate= $request->package_rate;
+        $user->email= $request->email;
+        $user->contact= $request->contact;
+        $user->user_status= $request->user_status;
+        $user->save();
+        Session::flash('successMsg', 'User updated successfully');
+        return response()->json(['success' => true, 'message' => 'User updated successfully', 'data' => null], 200);
 
     }
 }
