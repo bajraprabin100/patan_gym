@@ -21,6 +21,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/bill-record', 'UserController@billRecord')->name('billRecord');
     Route::post('/bill-record-store', 'UserController@storeBillRecord')->name('billRecord.store');
     Route::get('/bill-record-list', 'UserController@listBillRecord')->name('billRecord.list');
+    Route::get('/bill-record-list/{id}/edit', 'UserController@editBillRecord')->name('billRecord.edit');
+    Route::post('/bill-record-list/update', 'UserController@updateBillRecord')->name('billRecord.update');
+    Route::get('/bill-record-list/delete', 'UserController@deleteBillRecord')->name('billRecord.delete');
 
     Route::get('dashboard', ['uses' => 'DashboardController@index', 'as' => 'dashboard']);
     Route::post('/branch_para/import', 'BranchparaController@import')->name('branch_para.import');

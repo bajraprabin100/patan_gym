@@ -593,11 +593,13 @@ class UserController extends DashboardController
         $package = Package::find($id);
         return response()->json(['success' => true, 'message' => 'Package Editted', 'data' => ['package' => $package]], 200);
     }
-    public function updatePackage(Request $request){
-   Package::where('id','=',$request->package_id)->update(['month'=>$request->month_pop,'price'=>$request->price_pop]);
+
+    public function updatePackage(Request $request)
+    {
+        Package::where('id', '=', $request->package_id)->update(['month' => $request->month_pop, 'price' => $request->price_pop]);
 //        $package =Package::find($id);
         Session::flash('successMsg', 'Package updated successfully');
-        return response()->json(['success'=>true,'message'=>'Package Deleted','data'=>null],200);
+        return response()->json(['success' => true, 'message' => 'Package Deleted', 'data' => null], 200);
 
     }
 
@@ -633,52 +635,54 @@ class UserController extends DashboardController
         return view('admin.bill_record.list', $this->admin_data);
     }
 
-    public function storeUser(Request $request){
-       if(!$request->membership_no) {
-           $data = $request->all();
-           DB::beginTransaction();
-           try {
-               $input = [
-                   'membership_no', 'name', 'address', 'user_valid_date', 'gender', 'admission_date', 'package_rate', 'email', 'contact', 'photo', 'user_status'
-               ];
+    public function storeUser(Request $request)
+    {
+        if (!$request->membership_no) {
+            $data = $request->all();
+            DB::beginTransaction();
+            try {
+                $input = [
+                    'membership_no', 'name', 'address', 'user_valid_date', 'gender', 'admission_date', 'package_rate', 'email', 'contact', 'photo', 'user_status'
+                ];
 
 
-               foreach ($input as $i) {
-                   $data[$i] = isset($data[$i]) ? $data[$i] : '';
-               }
-               $query = Member::select(DB::raw("MAX(membership_no)+1 AS membership_no"))->first();
-               if ($query->membership_no != null) {
+                foreach ($input as $i) {
+                    $data[$i] = isset($data[$i]) ? $data[$i] : '';
+                }
+                $query = Member::select(DB::raw("MAX(membership_no)+1 AS membership_no"))->first();
+                if ($query->membership_no != null) {
 
-                   $data['membership_no'] = $query->membership_no;
-               } else {
-                   $data['membership_no'] = 1;
-               }
-               Member::create($data);
-               $bil_record = new BillsRecord();
-               $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
-               $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
-               if ($query->bill_no != null) {
-                   $bil_record->bill_no = $query->bill_no;
-               } else {
-                   $bil_record->bill_no = 1;
-               }
-               $bil_record->amount = isset($request->package_rate) ? $request->package_rate : '0';
-               $bil_record->discount = isset($request->discount) ? $request->discount : '0';
-               $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
-               $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
-               $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
-               $bil_record->save();
-         DB::commit();
+                    $data['membership_no'] = $query->membership_no;
+                } else {
+                    $data['membership_no'] = 1;
+                }
+                Member::create($data);
+                $bil_record = new BillsRecord();
+                $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
+                $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
+                if ($query->bill_no != null) {
+                    $bil_record->bill_no = $query->bill_no;
+                } else {
+                    $bil_record->bill_no = 1;
+                }
+                $bil_record->amount = isset($request->package_rate) ? $request->package_rate : '0';
+                $bil_record->discount = isset($request->discount) ? $request->discount : '0';
+                $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
+                $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
+                $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
+                $bil_record->save();
+                DB::commit();
 
-           } catch (\Exception $e) {
-               DB::rollback();
-               Session::flash('successMsg', $e->getMessage());
-               dd($e->getMessage());
-               // something went wrong
-           }
-           return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => ['membership_no' => $data['membership_no'], 'bill_no' => $bil_record->bill_no]], 200);
-       }
+            } catch (\Exception $e) {
+                DB::rollback();
+                Session::flash('successMsg', $e->getMessage());
+                dd($e->getMessage());
+                // something went wrong
+            }
+            return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => ['membership_no' => $data['membership_no'], 'bill_no' => $bil_record->bill_no]], 200);
         }
+    }
+
     public function deleteBillRecord(Request $request)
     {
         $bill_record = BillsRecord::find($request->record_id);
@@ -696,6 +700,7 @@ class UserController extends DashboardController
 
     public function updateBillRecord(Request $request)
     {
+        dd($request->all());
         $bill_record = BillsRecord::where('bills_record.membership_no', '=', $request->membership_no)
             ->get();
         $bill_record->amount = $request->amount;
