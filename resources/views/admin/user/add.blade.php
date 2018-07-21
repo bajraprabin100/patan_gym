@@ -227,6 +227,15 @@
 
                 }
             })
+            $('[name=package_rate],[name=discount],[name=paid_amount]').keyup(function () {
+                
+                var package_rate =  $('[name=package_rate]').val();
+                var discount = $('[name=discount]').val();
+                var paid_amt = $('[name=paid_amount]').val();
+                var due_amt= package_rate-discount-paid_amt;
+                $('[name=due_amount]').val(due_amt);
+
+            })
         })
     </script>
 @endsection

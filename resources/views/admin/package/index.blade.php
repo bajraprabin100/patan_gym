@@ -118,25 +118,26 @@
                     <div class="box box-primary">
                         <form role="form" id="update_package">
                             {!! csrf_field() !!}
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Edit Package</h3>
-                        </div>
-                        <div class="box-body">
-                            <input name="package_id" type="hidden">
-                            <div class="input-group ">
-                                <select name="month_pop" class="form-control">
-                                    @for($i=1;$i<27;$i++)
-                                        <option value="{{$i}}" required>{{$i}}</option>
-                                    @endfor
-                                </select>
-                                <span class="input-group-addon">Month</span>
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Edit Package</h3>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Price</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Price"
-                                       name="price_pop" required>
+                            <div class="box-body">
+                                <input name="package_id" type="hidden">
+                                <div class="input-group ">
+                                    <select name="month_pop" class="form-control">
+                                        @for($i=1;$i<27;$i++)
+                                            <option value="{{$i}}" required>{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                    <span class="input-group-addon">Month</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Price</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                           placeholder="Price"
+                                           name="price_pop" required>
+                                </div>
                             </div>
-                        </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
@@ -194,14 +195,14 @@
             $('#update_package').submit(function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url:"{{route('admin.package.update_detail')}}",
-                    method:"POST",
+                    url: "{{route('admin.package.update_detail')}}",
+                    method: "POST",
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
                     },
 
-                    data:$(this).serialize(),
-                    success:function (response) {
+                    data: $(this).serialize(),
+                    success: function (response) {
 
                     }
 
@@ -260,6 +261,7 @@
                 })
 
             });
+
 
 
         })
