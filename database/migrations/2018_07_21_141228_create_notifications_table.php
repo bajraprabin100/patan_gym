@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->text('message');
             $table->string('reference_id');
             $table->string('type');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
