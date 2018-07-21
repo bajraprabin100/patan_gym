@@ -629,7 +629,7 @@ class UserController extends DashboardController
 
     public function listBillRecord()
     {
-        $this->admin_data['bill_records'] = BillsRecord::orderBy('id','desc')->get();
+        $this->admin_data['bill_records'] = BillsRecord::orderBy('id', 'desc')->get();
         return view('admin.bill_record.list', $this->admin_data);
     }
 
@@ -679,4 +679,34 @@ class UserController extends DashboardController
            return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => ['membership_no' => $data['membership_no'], 'bill_no' => $bil_record->bill_no]], 200);
        }
         }
+    public function deleteBillRecord(Request $request)
+    {
+        $bill_record = BillsRecord::find($request->record_id);
+        $bill_record->delete();
+        Session::flash('successMsg', 'Bill Record Deleted Successfully');
+        return response()->json(['success' => true, 'message' => "record deleted successfully", 'data' => null], 200);
+    }
+
+    public function editBillRecord($id)
+    {
+        $this->admin_data['bill_record'] = BillsRecord::where('id', '=', $id)->first();
+        return view('admin.bill_record.edit', $this->admin_data);
+
+    }
+
+    public function updateBillRecord(Request $request)
+    {
+        $bill_record = BillsRecord::where('bills_record.membership_no', '=', $request->membership_no)
+            ->get();
+        $bill_record->amount = $request->amount;
+        $bill_record->discount = $request->discount;
+        $bill_record->paid_amount = $request->paid_amount;
+        $bill_record->due_amount = $request->due_amount;
+        $bill_record->remarks = $request->remarks;
+        $bill_record->save();
+
+        Session::flash('successMsg', 'Bill record updated successfully');
+        return response()->json(['success' => true, 'message' => 'Bill record updated successfully', 'data' => null], 200);
+    }
+
 }
