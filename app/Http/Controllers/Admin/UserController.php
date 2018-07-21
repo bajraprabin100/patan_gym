@@ -563,4 +563,16 @@ return response()->json(['success'=>'true'],200);
         Session::flash('successMsg', 'User Type Permission updated successfully');
         return response()->json(['success' => true, 'message' => 'Permission updated successfully', 'data' => null], 200);
     }
+    public function deletePackage($id){
+        $package =Package::find($id);
+        $package->delete();
+        Session::flash('successMsg', 'Package deleted successfully');
+        return response()->json(['success'=>true,'message'=>'Package Deleted','data'=>null],200);
+    }
+    public function editPackage($id){
+        $package =Package::find($id);
+        $package_html = view('admin.package.edit',compact('package'))->render();
+        return response()->json(['success'=>true,'message'=>'PAckage Editted','data'=>['package_html'=>$package_html]],200);
+
+    }
 }
