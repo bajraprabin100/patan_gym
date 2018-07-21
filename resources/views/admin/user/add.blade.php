@@ -5,8 +5,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Customer
-                <small>Setup</small>
+                Members
+                <small></small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -22,7 +22,7 @@
                     @include('flash.message')
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Customer Parameter</h3>
+                            <h3 class="box-title">Members</h3>
                         </div>
 
                         <!-- Nav tabs -->
@@ -47,12 +47,13 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-group input-group-sm">
-                                                 <span class="input-group-btn">    <button type="button" class="btn btn-info btn-flat pwd_click">Name
+                                                 <span class="input-group-btn">    <button type="button"
+                                                                                           class="btn btn-info btn-flat pwd_click">Name
                                                     </button>
                                                         </span>
 
                                                     <input type="text" class="form-control"
-                                                           placeholder="Name" name="name">
+                                                           placeholder="Name" name="name" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -66,24 +67,34 @@
                                         </div>
                                         <br/>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">Gender</span>
-                                                   <select name="gender" class="form-control">
-                                                       <option value="Male">Male</option>
-                                                       <option value="Female">Female</option>
-                                                       <option value="Others">Others</option>
-                                                   </select>
+                                                    <span class="input-group-addon">Contact</span>
+                                                    <input type="text" class="form-control" placeholder="Contact"
+                                                           name="contact">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Gender</span>
+                                                    <select name="gender" class="form-control">
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
                                                 <div class="input-group input-group-sm">
-                                                 <span class="input-group-btn">    <button type="button" class="btn btn-info btn-flat pwd_click">Admission Date
+                                                 <span class="input-group-btn">    <button type="button"
+                                                                                           class="btn btn-info btn-flat pwd_click">Admission Date
                                                     </button>
                                                         </span>
 
                                                     <input type="text" class="form-control"
-                                                           placeholder="Admission Date" name="admission_date">
+                                                           placeholder="Admission Date" name="admission_date"
+                                                           value="{{date('Y-m-d')}}" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -97,19 +108,22 @@
                                         </div>
                                         <br/>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Package</span>
-                                                    <select name="select_package" class="form-control">
+                                                    <select name="select_package" class="form-control" required>
+                                                        <option value="">Select Package</option>
                                                         @foreach($packages as $p)
-                                                        <option value="{{$p->month}}">{{$p->month}} month</option>
+                                                            <option value="{{$p->month}}">{{$p->month}} month</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4">
                                                 <div class="input-group input-group-sm">
-                                                 <span class="input-group-btn">    <button type="button" class="btn btn-info btn-flat pwd_click">Package Rate
+                                                 <span class="input-group-btn">    <button type="button"
+                                                                                           class="btn btn-info btn-flat pwd_click">Package Rate
                                                     </button>
                                                         </span>
 
@@ -119,21 +133,100 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">User Valid Date</span>
-                                                    <input type="text" class="form-control" placeholder="User valid date"
-                                                           name="email">
+                                                    <span class="input-group-addon">Discount</span>
+                                                    <input type="text" name="discount" class="form-control" value="0">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                   <span class="input-group-btn">
+                                                       <button type="button"
+                                                               class="btn btn-info btn-flat pwd_click">Paid Amount
+                                                    </button>
+                                                        </span>
+
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Paid Amount" name="paid_amount" value="0">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-sm">
+                                                 <span class="input-group-addon">
+                                                     Due Amount
+                                                        </span>
+
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Due Amount" name="due_amount">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                        <span class="input-group-addon">
+                                                   User Valid Date
+                                                        </span>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="User valid date"
+                                                           name="user_valid_date">
                                                 </div>
                                             </div>
 
                                         </div>
-                                    </div>
+                                        {{--<div class="col-md-4">--}}
+                                        {{--<div class="input-group">--}}
+                                        {{--<span class="input-group-addon">User Valid Date</span>--}}
+                                        {{--<input type="text" class="form-control" placeholder="User valid date"--}}
+                                        {{--name="email">--}}
+                                        {{--</div>--}}
+                                        {{--</div>--}}
 
-                                </form>
-                            </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
     </div>
+    </section>
+    </div>
+
+    <script>
+        $('[name=select_package]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{route('admin.user.package.selected')}}",
+                method: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
+                },
+                data: {
+                    month: $(this).find('option:selected').val(),
+                    admission_date:$("[name=admission_date]").val()
+                },
+                success: function (response) {
+                    if(response.success==false){
+                        $('[name=package_rate]').val("");
+                        $('[name=user_valid_date]').val("");
+
+                    }
+                    console.log(response);
+                    $('[name=package_rate]').val(response.data.price);
+                    $('[name=user_valid_date]').val(response.data.user_valid_date);
+                    // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
+
+
+                }
+            })
+        })
+    </script>
 @endsection

@@ -58,6 +58,14 @@ Package::create($request->all());
 Session::flash('successMsg','Package saved successfully');
 return response()->json(['success'=>'true'],200);
     }
+    public function selectedPackage(Request $request){
+        if($request->month==null)
+       return response()->json(['success'=>false],200);
+        $month=Package::where('month','=',$request->month)->first();
+        $time = strtotime($request->admission_date);
+        $user_valid_date = date("Y-m-d", strtotime("+".$request->month." month", $time));
+       return response()->json(['success'=>true,'message'=>'','data'=>['price'=>$month->price,'user_valid_date'=>$user_valid_date]],200);
+    }
     public function addUser(){
         $this->admin_data['packages']=Package::all();
         return view('admin.user.add',$this->admin_data);
