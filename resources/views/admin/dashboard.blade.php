@@ -520,24 +520,5 @@
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <script>
-        $('[name=branch_code]').change(function(){
-            $.ajax({
-               url:"{{route('admin.select_branch')}}",
-                method:"GET",
-                data:{
-                   branch_code:$(this).val()
-                },
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
-                },
-                success:function (response) {
-                   if(response.success == true){
-                       location.reload();
-                   }
 
-                }
-            });
-        })
-    </script>
 @endsection

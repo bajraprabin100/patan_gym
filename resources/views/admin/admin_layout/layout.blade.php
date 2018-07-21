@@ -27,9 +27,9 @@
         <!-- Logo -->
         <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>K</b>RT</span>
+            <span class="logo-mini"><b>P</b>GYM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>KOURTIER</b>courier</span>
+            <span class="logo-lg"><b>Patan</b>Gym</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -105,6 +105,10 @@
                                 <span>Branch Information</span></a>
                         </li>
                             @endif
+
+                            <li><a href="{{route('admin.package',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
+                                <span>Package Information</span></a>
+                        </li>
 
 
                     </ul>

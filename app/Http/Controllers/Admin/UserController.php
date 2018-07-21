@@ -9,6 +9,7 @@ use App\Models\Admin\CustomerPara;
 use App\Models\Admin\CustomerPriceDetail;
 use App\Models\Admin\EmployeeParameter;
 use App\Models\Admin\MerchandisePara;
+use App\Models\Admin\Package;
 use App\Models\Admin\ZoneMaster;
 use App\Permission;
 use App\RolePermission;
@@ -25,12 +26,14 @@ use App\Models\Admin\BranchPara;
 use Input;
 use Excel;
 use Illuminate\Support\Collection;
+use  App\Repositories\Backend\BranchPara\BranchParaInterface;
 
 class UserController extends DashboardController
 {
-    public function __construct()
+    public function __construct(BranchParaInterface $branch_para)
     {
         parent::__construct();
+        $this->branch_para = $branch_para;
     }
 
     public function customerIndex()
@@ -43,6 +46,17 @@ class UserController extends DashboardController
         $this->admin_data['country_para'] = CountryPara::orderBy('country_name', 'desc')->get();
         $this->admin_data['branch_para'] = BranchPara::where('branch_code', '=', $this->admin_data['login_user']->branch_code)->first();
         return view('admin.user.customer.index', $this->admin_data);
+    }
+
+    public function package()
+    {
+        $this->admin_data['packages'] = Package::orderby('id','desc')->get();
+        return view('admin.package.index', $this->admin_data);
+    }
+    public function packageStore(Request $request){
+Package::create($request->all());
+Session::flash('successMsg','Package saved successfully');
+return response()->json(['success'=>'true'],200);
     }
 
     public function selectedfunctionType(Request $request)
@@ -72,8 +86,7 @@ class UserController extends DashboardController
                 $function_type_b->push($add);
             }
             Session::put('function_type_b', $function_type_b);
-        }
-        elseif ($request->function_type == 'A') {
+        } elseif ($request->function_type == 'A') {
             Session::forget('function_type_b');
             $customer_prices = CustomerDetail::where('customer_code', '=', $request->customer_code)->get();
             $function_type_a = new Collection();
@@ -81,7 +94,7 @@ class UserController extends DashboardController
             foreach ($customer_prices as $c) {
                 $d['zone'] = $c->zone_code;
                 $d['discount'] = $c->discount_pct;
-                       $add = (object)$d;
+                $add = (object)$d;
                 $function_type_a->push($add);
             }
             Session::put('function_type_a', $function_type_a);
@@ -93,13 +106,13 @@ class UserController extends DashboardController
         $zones = ZoneMaster::where('branch_code', '=', $this->admin_data['login_user']->branch_code)->get();
         $locations = LocationHierarachy::where('location_type', '=', 'PLC')->orderBy('location_name', 'asc')->get();
         $merchandise = MerchandisePara::all();
-        $function_type_html = view('admin.user.customer.edit_function_type', compact('function_type', 'function_type_b','function_type_a', 'zones', 'locations', 'merchandise'))->render();
+        $function_type_html = view('admin.user.customer.edit_function_type', compact('function_type', 'function_type_b', 'function_type_a', 'zones', 'locations', 'merchandise'))->render();
         return response()->json(['success' => true, 'message' => 'Selected function type', 'data' => ['function_type_html' => $function_type_html]], 200);
     }
 
     public function addPrice(Request $request)
     {
-        if($request->function_type=='B') {
+        if ($request->function_type == 'B') {
             $function_type_b = Session::get('function_type_b');
             if (!isset($function_type_b))
                 $function_type_b = new Collection();
@@ -126,7 +139,7 @@ class UserController extends DashboardController
 
             $function_type_b_html = view('admin.user.customer.function_type_b_html', compact('function_type_b'))->render();
             return response()->json(['success' => true, 'message' => 'function type b added', 'data' => ['function_type_b_html' => $function_type_b_html]], 200);
-        }elseif($request->function_type =='A'){
+        } elseif ($request->function_type == 'A') {
             $function_type_a = Session::get('function_type_a');
             if (!isset($function_type_a))
                 $function_type_a = new Collection();
@@ -137,7 +150,7 @@ class UserController extends DashboardController
 
                 foreach ($function_type_a as $b) {
                     if ($b->zone == $request->zone) {
-                       $push = 'N';
+                        $push = 'N';
                     }
                 }
             }
@@ -243,11 +256,11 @@ class UserController extends DashboardController
             }
             if ($request->function_type == 'A') {
                 foreach ($request->zone as $key => $z) {
-                    $c_z_price_check=CustomerDetail::where('zone_code','=',$z)->where('customer_code','=',$customer_code)->first();
-                   if(!$c_z_price_check)
-                    CustomerDetail::create(['zone_code' => $z, 'customer_code' => $customer_code, 'discount_pct' => $request['discount'][$key]]);
+                    $c_z_price_check = CustomerDetail::where('zone_code', '=', $z)->where('customer_code', '=', $customer_code)->first();
+                    if (!$c_z_price_check)
+                        CustomerDetail::create(['zone_code' => $z, 'customer_code' => $customer_code, 'discount_pct' => $request['discount'][$key]]);
                     else
-                        CustomerDetail::where('zone_code','=',$z)->where('customer_code','=',$customer_code)->update(['discount_pct' => $request['discount'][$key]]);
+                        CustomerDetail::where('zone_code', '=', $z)->where('customer_code', '=', $customer_code)->update(['discount_pct' => $request['discount'][$key]]);
                 }
             } elseif ($request->function_type == 'B') {
                 foreach ($request->location_code as $key => $l) {
