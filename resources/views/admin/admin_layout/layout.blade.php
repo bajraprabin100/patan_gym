@@ -47,12 +47,12 @@
                             <span class="label label-warning">{{$n_count}}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
+                            <li class="header">You have {{$n_count}} notifications</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
                                     @foreach($notifications as $n)
-                                    <li>
+                                    <li style={{$n->status==0?"background-color:#f1d8d8":""}}>
                                         <a href="">
                                             <i class="fa fa-users text-aqua"></i>{{$n->message}}
                                         </a>
@@ -61,7 +61,7 @@
 
                                      </ul>
                             </li>
-                            <li class="footer"><a href="#">View all</a></li>
+                            <li class="footer"><a href="{{route('admin.notification.view_all',['token'=>$token])}}">View all</a></li>
                         </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
@@ -122,13 +122,7 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
                     </a>
                     <ul class="treeview-menu">
-                        @if(Auth::user()->can('branch_information') || Auth::user()->userPermissionCan('branch_information'))
 
-                            <li><a href="{{route('admin.branch_para.index',['token'=>$token])}}"><i
-                                            class="fa fa-circle-o"></i>
-                                    <span>Branch Information</span></a>
-                            </li>
-                        @endif
 
                         <li><a href="{{route('admin.package',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
                                 <span>Package Information</span></a>

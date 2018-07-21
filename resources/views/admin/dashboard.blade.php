@@ -19,15 +19,9 @@
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <div class="col-md-offset-2 col-lg-8">
-                    <h2 align="center" class="style1">Welcome to Courier Management System. </h2>
+                    <h2 align="center" class="style1">Welcome to Patan Gym. </h2>
                     <!-- small box -->
-                    <label for="branch_code">Branch Code</label>
-                    <select name="branch_code" class="form-control">
-                        <option value="">--- Select Branch ---</option>
-                        @foreach($branch_para as $b)
-                            <option value="{{$b->branch_code}}" {{$b->branch_code==$login_user->branch_code?'selected':''}}>{{$b->branch_name}}</option>
-                            @endforeach
-                    </select>
+
                 </div>
             </div>
         </section>

@@ -11,6 +11,7 @@ use App\Models\Admin\CustomerPriceDetail;
 use App\Models\Admin\EmployeeParameter;
 use App\Models\Admin\Member;
 use App\Models\Admin\MerchandisePara;
+use App\Models\Admin\Notifications;
 use App\Models\Admin\Package;
 use App\Models\Admin\ZoneMaster;
 use App\Permission;
@@ -751,6 +752,11 @@ class UserController extends DashboardController
         $user->save();
         Session::flash('successMsg', 'User updated successfully');
         return response()->json(['success' => true, 'message' => 'User updated successfully', 'data' => null], 200);
+
+    }
+    public function viewNotifications(){
+        $this->admin_data['all_not']=Notifications::orderBy('id','desc')->get();
+        return view('admin.user.view_notifications',$this->admin_data);
 
     }
 }

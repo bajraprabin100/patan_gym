@@ -24,7 +24,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Users List</h3>
+                            <h3 class="box-title">Member List</h3>
                         </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
