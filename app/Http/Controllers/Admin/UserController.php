@@ -58,6 +58,10 @@ Package::create($request->all());
 Session::flash('successMsg','Package saved successfully');
 return response()->json(['success'=>'true'],200);
     }
+    public function addUser(){
+        $this->admin_data['packages']=Package::all();
+        return view('admin.user.add',$this->admin_data);
+    }
 
     public function selectedfunctionType(Request $request)
     {

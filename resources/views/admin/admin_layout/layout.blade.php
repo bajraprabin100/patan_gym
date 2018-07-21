@@ -109,9 +109,31 @@
                             <li><a href="{{route('admin.package',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
                                 <span>Package Information</span></a>
                         </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-pie-chart"></i>
+                                        <span>User</span>
+                                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+
+
+                                        <li><a href="{{route('admin.user.add',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
+                                                <span>Add</span></a>
+                                        </li>
+                                        <li><a href="{{route('admin.package',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
+                                                <span>List</span></a>
+                                        </li>
+
+
+
+                                    </ul>
+
+                                </li>
 
 
                     </ul>
+
                 </li>
 
 
