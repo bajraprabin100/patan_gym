@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin\BillsRecord;
 use App\Models\Admin\Company;
 use App\Models\Admin\CountryPara;
 use App\Models\Admin\CustomerDetail;
@@ -50,25 +51,31 @@ class UserController extends DashboardController
 
     public function package()
     {
-        $this->admin_data['packages'] = Package::orderby('id','desc')->get();
+        $this->admin_data['packages'] = Package::orderby('id', 'desc')->get();
         return view('admin.package.index', $this->admin_data);
     }
-    public function packageStore(Request $request){
-Package::create($request->all());
-Session::flash('successMsg','Package saved successfully');
-return response()->json(['success'=>'true'],200);
+
+    public function packageStore(Request $request)
+    {
+        Package::create($request->all());
+        Session::flash('successMsg', 'Package saved successfully');
+        return response()->json(['success' => 'true'], 200);
     }
-    public function selectedPackage(Request $request){
-        if($request->month==null)
-       return response()->json(['success'=>false],200);
-        $month=Package::where('month','=',$request->month)->first();
+
+    public function selectedPackage(Request $request)
+    {
+        if ($request->month == null)
+            return response()->json(['success' => false], 200);
+        $month = Package::where('month', '=', $request->month)->first();
         $time = strtotime($request->admission_date);
-        $user_valid_date = date("Y-m-d", strtotime("+".$request->month." month", $time));
-       return response()->json(['success'=>true,'message'=>'','data'=>['price'=>$month->price,'user_valid_date'=>$user_valid_date]],200);
+        $user_valid_date = date("Y-m-d", strtotime("+" . $request->month . " month", $time));
+        return response()->json(['success' => true, 'message' => '', 'data' => ['price' => $month->price, 'user_valid_date' => $user_valid_date]], 200);
     }
-    public function addUser(){
-        $this->admin_data['packages']=Package::all();
-        return view('admin.user.add',$this->admin_data);
+
+    public function addUser()
+    {
+        $this->admin_data['packages'] = Package::all();
+        return view('admin.user.add', $this->admin_data);
     }
 
     public function selectedfunctionType(Request $request)
@@ -571,18 +578,57 @@ return response()->json(['success'=>'true'],200);
         Session::flash('successMsg', 'User Type Permission updated successfully');
         return response()->json(['success' => true, 'message' => 'Permission updated successfully', 'data' => null], 200);
     }
-    public function deletePackage($id){
-        $package =Package::find($id);
+
+    public function deletePackage($id)
+    {
+        $package = Package::find($id);
         $package->delete();
         Session::flash('successMsg', 'Package deleted successfully');
-        return response()->json(['success'=>true,'message'=>'Package Deleted','data'=>null],200);
+        return response()->json(['success' => true, 'message' => 'Package Deleted', 'data' => null], 200);
     }
-    public function editPackage($id){
-        $package =Package::find($id);
-        return response()->json(['success'=>true,'message'=>'Package Editted','data'=>['package'=>$package]],200);
+
+    public function editPackage($id)
+    {
+        $package = Package::find($id);
+        return response()->json(['success' => true, 'message' => 'Package Editted', 'data' => ['package' => $package]], 200);
     }
-    public function updatePackage(Request $request){
+
+    public function updatePackage(Request $request)
+    {
         dd($request->all());
 //        $package =Package::find($id);
     }
+
+    public function billRecord()
+    {
+        return view('admin.bill_record.index', $this->admin_data);
+    }
+
+    public function storeBillRecord(Request $request)
+    {
+        $bil_record = new BillsRecord();
+        $bil_record->membership_no = isset($request->membership_no) ? $request->membership_no : '';
+        $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
+        if ($query->bill_no != null) {
+            $bil_record->bill_no = $query->bill_no;
+        } else {
+            $bil_record->bill_no = 1;
+        }
+        $bil_record->amount = isset($request->amount) ? $request->amount : '0';
+        $bil_record->discount = isset($request->discount) ? $request->discount : '0';
+        $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
+        $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
+        $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
+        $bil_record->save();
+        Session::flash('successMsg', 'New Bill Record Added successfully');
+        return response()->json(['success' => true, 'message' => 'New Bill Record Added successfully', 'data' => null], 200);
+
+    }
+
+    public function listBillRecord()
+    {
+        $this->admin_data['bill_records'] = BillsRecord::orderBy('id','desc')->get();
+        return view('admin.bill_record.list', $this->admin_data);
+    }
+
 }

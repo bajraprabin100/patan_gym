@@ -18,7 +18,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <script src="{{url('bower_components/jquery/dist/jquery.min.js')}}"></script>
-        <script src="{{url('js/dateconverter.js')}}"></script>
+    <script src="{{url('js/dateconverter.js')}}"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -99,43 +99,66 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
                     </a>
                     <ul class="treeview-menu">
-                            @if(Auth::user()->can('branch_information') || Auth::user()->userPermissionCan('branch_information'))
+                        @if(Auth::user()->can('branch_information') || Auth::user()->userPermissionCan('branch_information'))
 
-                            <li><a href="{{route('admin.branch_para.index',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
-                                <span>Branch Information</span></a>
-                        </li>
-                            @endif
+                            <li><a href="{{route('admin.branch_para.index',['token'=>$token])}}"><i
+                                            class="fa fa-circle-o"></i>
+                                    <span>Branch Information</span></a>
+                            </li>
+                        @endif
 
-                            <li><a href="{{route('admin.package',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
+                        <li><a href="{{route('admin.package',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
                                 <span>Package Information</span></a>
                         </li>
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-pie-chart"></i>
-                                        <span>User</span>
-                                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
-                                    </a>
-                                    <ul class="treeview-menu">
+
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-pie-chart"></i>
+                                    <span>Bill Record</span>
+                                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                                </a>
+                                <ul class="treeview-menu">
 
 
-                                        <li><a href="{{route('admin.user.add',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
-                                                <span>Add</span></a>
-                                        </li>
-                                        <li><a href="{{route('admin.package',['token'=>$token])}}"><i  class="fa fa-circle-o"></i>
-                                                <span>List</span></a>
-                                        </li>
+                                    <li><a href="{{route('admin.billRecord',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
+                                            <span>Add </span></a>
+                                    </li>
+                                    <li><a href="{{route('admin.billRecord.list',['token'=>$token])}}"><i
+                                                    class="fa fa-circle-o"></i>
+                                            <span>List</span></a>
+                                    </li>
 
 
+                                </ul>
 
-                                    </ul>
+                            </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-pie-chart"></i>
+                                <span>User</span>
+                                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                            </a>
+                            <ul class="treeview-menu">
 
+
+                                <li><a href="{{route('admin.user.add',['token'=>$token])}}"><i
+                                                class="fa fa-circle-o"></i>
+                                        <span>Add</span></a>
                                 </li>
+                                <li><a href="{{route('admin.package',['token'=>$token])}}"><i
+                                                class="fa fa-circle-o"></i>
+                                        <span>List</span></a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
 
 
                     </ul>
 
                 </li>
-
 
 
             </ul>

@@ -18,8 +18,11 @@ Route::get('/app/login', ['uses' => 'JwtAuthenticateController@appLogin', 'as' =
 Route::get('/app/logout', 'JwtAuthenticateController@logout')->name('app.logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['ability:admin|destination,create-users'], 'as' => 'admin.'], function () {
     // Protected route
-    Route::get('dashboard', ['uses' => 'DashboardController@index', 'as' => 'dashboard']);
+    Route::get('/bill-record', 'UserController@billRecord')->name('billRecord');
+    Route::post('/bill-record-store', 'UserController@storeBillRecord')->name('billRecord.store');
+    Route::get('/bill-record-list', 'UserController@listBillRecord')->name('billRecord.list');
 
+    Route::get('dashboard', ['uses' => 'DashboardController@index', 'as' => 'dashboard']);
     Route::post('/branch_para/import', 'BranchparaController@import')->name('branch_para.import');
     Route::resource('/branch_para', 'BranchparaController');
     Route::post('/package/updateDetail', 'UserController@updatePackage')->name('package.update_detail');
@@ -28,8 +31,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/package', 'UserController@package')->name('package');
     Route::post('/package', 'UserController@packageStore')->name('package.store');
     Route::get('/user/add', 'UserController@addUser')->name('user.add');
-    Route::get('/user/package/selected','UserController@selectedPackage')->name('user.package.selected');
+    Route::get('/user/package/selected', 'UserController@selectedPackage')->name('user.package.selected');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
+
 
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
         Route::post('bill_issue', ['uses' => 'UtilityController@billIssueStore', 'as' => 'bill_issue']);
