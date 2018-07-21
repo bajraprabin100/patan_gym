@@ -38,14 +38,26 @@
 
                                         <br/>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="error_msg alert alert-danger alert-dismissible fade in"
+                                                 style="display:none"><a href="#" class="close" data-dismiss="alert"
+                                                                         aria-label="close">&times;</a> <strong>Danger!</strong>
+                                                This alert box could indicate a dangerous or potentially negative action.
+                                            </div>
+                                            <div class="col-md-3">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Membership No</span>
                                                     <input type="text" class="form-control" placeholder="Member No"
-                                                           name="memership_no" readonly>
+                                                           name="membership_no" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Bill No</span>
+                                                    <input type="text" class="form-control" placeholder="Bill No"
+                                                           name="bill_no" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <div class="input-group input-group-sm">
                                                  <span class="input-group-btn">    <button type="button"
                                                                                            class="btn btn-info btn-flat pwd_click">Name
@@ -56,7 +68,7 @@
                                                            placeholder="Name" name="name" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Address</span>
                                                     <input type="text" class="form-control" placeholder="Address"
@@ -211,10 +223,10 @@
                 },
                 data: {
                     month: $(this).find('option:selected').val(),
-                    admission_date:$("[name=admission_date]").val()
+                    admission_date: $("[name=admission_date]").val()
                 },
                 success: function (response) {
-                    if(response.success==false){
+                    if (response.success == false) {
                         $('[name=package_rate]').val("");
                         $('[name=user_valid_date]').val("");
 
@@ -236,6 +248,25 @@
                 $('[name=due_amount]').val(due_amt);
 
             })
+        });
+            $('#customer_para').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{route('admin.user.store')}}",
+                    method: "POST",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
+                    },
+                    data:$(this).serialize(),
+                    success: function (response) {
+
+                      $('[name=bill_no]').val(response.data.bill_no);
+                      $('[name=membership_no]').val(response.data.membership_no);
+                        $(".error_msg").text(response.message);
+                        $(".error_msg").fadeIn(300).delay(1500).fadeOut(400);
+
+                    }
+                })
         })
     </script>
 @endsection

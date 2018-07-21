@@ -31,7 +31,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/package', 'UserController@package')->name('package');
     Route::post('/package', 'UserController@packageStore')->name('package.store');
     Route::get('/user/add', 'UserController@addUser')->name('user.add');
-    Route::get('/user/package/selected', 'UserController@selectedPackage')->name('user.package.selected');
+    Route::post('/user/store', 'UserController@storeUser')->name('user.store');
+    Route::get('/user/package/selected','UserController@selectedPackage')->name('user.package.selected');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
 
 

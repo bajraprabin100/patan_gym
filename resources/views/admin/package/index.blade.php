@@ -18,15 +18,16 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <!-- left column -->
+            @include('flash.message')
+            <!-- left column -->
                 <div class="col-md-4">
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Package</h3>
                         </div>
-                    @include('flash.message')
-                    <!-- /.box-header -->
+
+                        <!-- /.box-header -->
                         <!-- form start -->
                         <form role="form" id="branch_para_submit">
                             {!! csrf_field() !!}
@@ -188,7 +189,7 @@
                         $('option:selected', 'select[name="month_pop"]').removeAttr('selected');
                         $('[name="month_pop"]').find('option[value=' + response.data.package.month + ']').attr('selected', 'selected');
                         $('[name="price_pop"]').val(response.data.package.price);
-                        $('[name="package_id"]').val($(this).attr('data-id'));
+                        $('[name="package_id"]').val(response.data.package.id);
                     }
                 })
             });
@@ -203,7 +204,7 @@
 
                     data: $(this).serialize(),
                     success: function (response) {
-
+                        location.reload();
                     }
 
                 })
@@ -261,7 +262,6 @@
                 })
 
             });
-
 
 
         })
