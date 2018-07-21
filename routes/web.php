@@ -35,10 +35,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::post('/package', 'UserController@packageStore')->name('package.store');
     Route::get('/user/add', 'UserController@addUser')->name('user.add');
     Route::post('/user/store', 'UserController@storeUser')->name('user.store');
-    Route::get('/user/package/selected','UserController@selectedPackage')->name('user.package.selected');
+    Route::get('/user/package/selected', 'UserController@selectedPackage')->name('user.package.selected');
+    Route::get('/user/list', 'UserController@userList')->name('user.list');
+    Route::get('/user/bill_detail/{id}', 'UserController@billDetail')->name('user.bill_detail');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
-
-
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
         Route::post('bill_issue', ['uses' => 'UtilityController@billIssueStore', 'as' => 'bill_issue']);
 

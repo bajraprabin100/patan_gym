@@ -656,6 +656,7 @@ class UserController extends DashboardController
                 } else {
                     $data['membership_no'] = 1;
                 }
+                $data['user_status']='Active';
                 Member::create($data);
                 $bil_record = new BillsRecord();
                 $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
@@ -714,4 +715,13 @@ class UserController extends DashboardController
         return response()->json(['success' => true, 'message' => 'Bill record updated successfully', 'data' => null], 200);
     }
 
+    public function userList(){
+        $this->admin_data['members'] = Member::orderby('id', 'desc')->get();
+        return view('admin.user.list', $this->admin_data);
+    }
+    public function billDetail(Request $request,$membership_no){
+        $this->admin_data['bill_detail']=BillsRecord::where('membership_no','=',$membership_no)->get();
+        return view('admin.user.bill_detail',$this->admin_data);
+
+    }
 }

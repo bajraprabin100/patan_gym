@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Admin\BranchPara;
 use App\Models\Admin\EmployeeParameter;
+use App\Models\Admin\Notifications;
 use Auth;
 use App\Permission;
 use App\Role;
@@ -16,6 +17,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Log;
 use Session;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 
 
@@ -25,6 +27,8 @@ class DashboardController extends Controller
     public function __construct(){
         $this->middleware(function ($request, $next) {
             $this->admin_data['login_user'] = Auth::user();
+            $this->admin_data['notifications']=Notifications::orderBy('id','desc')->get();
+            $this->admin_data['n_count']=DB::table('notifications')->where('status','=',0)->count();
             return $next($request);
         });
     }

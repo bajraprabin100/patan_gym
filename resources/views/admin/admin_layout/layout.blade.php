@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kourtier| Dashboard</title>
+    <title>Patan GYm| Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -40,13 +40,35 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">{{$n_count}}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    @foreach($notifications as $n)
+                                    <li>
+                                        <a href="">
+                                            <i class="fa fa-users text-aqua"></i>{{$n->message}}
+                                        </a>
+                                    </li>
+                                    @endforeach
 
+                                     </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             {{--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">--}}
-                            <span class="hidden-xs">{{$login_user->employee_name}}/{{$login_user->branch_code}}</span>
+                            <span class="hidden-xs">{{$login_user->name}}</span>
                         </a>
                         <ul class="dropdown-menu">
 
@@ -145,7 +167,7 @@
                                                 class="fa fa-circle-o"></i>
                                         <span>Add</span></a>
                                 </li>
-                                <li><a href="{{route('admin.package',['token'=>$token])}}"><i
+                                <li><a href="{{route('admin.user.list',['token'=>$token])}}"><i
                                                 class="fa fa-circle-o"></i>
                                         <span>List</span></a>
                                 </li>
