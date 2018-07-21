@@ -24,7 +24,7 @@ class DashboardController extends Controller
   protected $admin_data;
     public function __construct(){
         $this->middleware(function ($request, $next) {
-            $this->admin_data['login_user'] = Auth::user()->userData()->first();
+            $this->admin_data['login_user'] = Auth::user();
             return $next($request);
         });
     }

@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::delete('/branch_para/{id}/destroy', 'BranchparaController@destroy');
     Route::get('/package','UserController@package')->name('package');
     Route::post('/package','UserController@packageStore')->name('package.store');
+    Route::get('/user/add','UserController@addUser')->name('user.add');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
 
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
