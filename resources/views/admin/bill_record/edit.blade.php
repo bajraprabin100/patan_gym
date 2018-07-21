@@ -24,6 +24,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">Edit</h3>
                         </div>
+
                         <form role="form" id="update_bill_record">
                             {!! csrf_field() !!}
                             <div class="box-body">
@@ -89,7 +90,7 @@
                                 </div>
 
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
                         </form>
@@ -109,7 +110,7 @@
               },
               data: $(this).serialize(),
               success: function (response) {
-//                  location.reload();
+                  location.reload();
                   // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
 
               }

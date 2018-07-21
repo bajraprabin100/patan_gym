@@ -701,9 +701,10 @@ class UserController extends DashboardController
 
     public function updateBillRecord(Request $request)
     {
-        dd($request->all());
-        $bill_record = BillsRecord::where('bills_record.membership_no', '=', $request->membership_no)
-            ->get();
+        $bill_record = BillsRecord::where('bill_no', '=', $request->bill_no)
+            ->first();
+        $bill_record->membership_no = $request->membership_no;
+        $bill_record->bill_no = $request->bill_no;
         $bill_record->amount = $request->amount;
         $bill_record->discount = $request->discount;
         $bill_record->paid_amount = $request->paid_amount;

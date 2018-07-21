@@ -107,7 +107,7 @@
         $('#delete_bill_record').on('submit', function (e) {
             e.preventDefault();
             $.ajax({
-                url: "{{route('admin.billRecord.update')}}",
+                url: "{{route('admin.billRecord.delete')}}",
                 method: "GET",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
