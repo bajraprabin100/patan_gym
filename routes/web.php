@@ -22,12 +22,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
 
     Route::post('/branch_para/import', 'BranchparaController@import')->name('branch_para.import');
     Route::resource('/branch_para', 'BranchparaController');
-    Route::post('/branch_para/{id}/update_branch', 'BranchparaController@update_branch');
+    Route::post('/package/updateDetail', 'UserController@updatePackage')->name('package.update_detail');
     Route::get('/package/{id}/edit', 'UserController@editPackage');
     Route::delete('/package/{id}/deletePackage', 'UserController@deletePackage');
-    Route::get('/package','UserController@package')->name('package');
-    Route::post('/package','UserController@packageStore')->name('package.store');
-    Route::get('/user/add','UserController@addUser')->name('user.add');
+    Route::get('/package', 'UserController@package')->name('package');
+    Route::post('/package', 'UserController@packageStore')->name('package.store');
+    Route::get('/user/add', 'UserController@addUser')->name('user.add');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
 
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
@@ -35,10 +35,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
 
 
     });
-
-
-
-
 
 
 });

@@ -116,24 +116,31 @@
             <div class="modal-content">
                 <div class="edit-branch">
                     <div class="box box-primary">
+                        <form role="form" id="update_package">
+                            {!! csrf_field() !!}
                         <div class="box-header with-border">
                             <h3 class="box-title">Edit Package</h3>
                         </div>
                         <div class="box-body">
+                            <input name="package_id" type="hidden">
                             <div class="input-group ">
-                                <select name="month" class="form-control">
-
-                                        <option name="info_id" value="" required></option>
-
+                                <select name="month_pop" class="form-control">
+                                    @for($i=1;$i<27;$i++)
+                                        <option value="{{$i}}" required>{{$i}}</option>
+                                    @endfor
                                 </select>
                                 <span class="input-group-addon">Month</span>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Price</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Price"
-                                       name="price" required>
+                                       name="price_pop" required>
                             </div>
                         </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -166,12 +173,7 @@
     <script>
         $(document).ready(function () {
             var base_url = "{{url('/')}}";
-            $('#example1').on('click', '.btn-edit', function (e) {
-                var edit_id = $(this).attr('data-id');
-                $('#myModal2').modal('show');
-                $('[name="info_id"]').val(edit_id);
-
-            });
+            <!--edit-->
             $('#example1').on('click', '.btn-edit', function () {
                 $.ajax({
                     url: base_url + '/admin/package/' + $(this).attr('data-id') + '/edit',
@@ -181,16 +183,31 @@
                     },
                     data: $(this).serialize(),
                     success: function (response) {
-//                    console.log(response);
-//                    $('.edit-branch').html(response.data.branch_para_html);
-//                    $('#myModal2').modal();
-                        // location.reload();
-                        // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
-
-
+                        $('#myModal2').modal('show');
+                        $('option:selected', 'select[name="month_pop"]').removeAttr('selected');
+                        $('[name="month_pop"]').find('option[value=' + response.data.package.month + ']').attr('selected', 'selected');
+                        $('[name="price_pop"]').val(response.data.package.price);
+                        $('[name="package_id"]').val($(this).attr('data-id'));
                     }
                 })
             });
+            $('#update_package').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url:"{{route('admin.package.update_detail')}}",
+                    method:"POST",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
+                    },
+
+                    data:$(this).serialize(),
+                    success:function (response) {
+
+                    }
+
+                })
+            });
+
             $('#branch_para_submit').submit(function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -233,7 +250,7 @@
                         xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
                     },
                     data: {
-                        "_token": "{{ csrf_token() }}"
+                        "_token": "{{ csrf_token() }}",
                     },
                     success: function (response) {
                         location.reload();

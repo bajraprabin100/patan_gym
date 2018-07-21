@@ -571,8 +571,10 @@ return response()->json(['success'=>'true'],200);
     }
     public function editPackage($id){
         $package =Package::find($id);
-        $package_html = view('admin.package.edit',compact('package'))->render();
-        return response()->json(['success'=>true,'message'=>'PAckage Editted','data'=>['package_html'=>$package_html]],200);
-
+        return response()->json(['success'=>true,'message'=>'Package Editted','data'=>['package'=>$package]],200);
+    }
+    public function updatePackage(Request $request){
+        dd($request->all());
+//        $package =Package::find($id);
     }
 }
