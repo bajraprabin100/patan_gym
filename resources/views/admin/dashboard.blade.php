@@ -15,66 +15,117 @@
         </section>
         <!-- Main content -->
         @if(Auth::user()->hasRole('admin'))
-        <section class="content">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-offset-2 col-lg-8">
-                    <h2 align="center" class="style1">Welcome to Patan Gym. </h2>
-                    <!-- small box -->
+            <section class="content">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-md-offset-2 col-lg-8">
+                        <h2 align="center" class="style1">Welcome to Patan Gym. </h2>
+                        <!-- small box -->
 
+                    </div>
                 </div>
-            </div>
-        </section>
+
+
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+
+                                <h3>{{$total_members}}</h3>
+
+                                <p>Total User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+
+                                    <h3>{{$active_members}}</h3>
+
+                                <p>Active User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3>{{$deactive_members}}</h3>
+
+                                <p>Deactive User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+              
+
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>{{$due_members}}</h3>
+
+                                <p>Due User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3>65</h3>
+
+                                <p>Finished User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3>{{$paid_members}}</h3>
+                                <p>Paid User List</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+
+
+            </section>
         @endif
-    {{--<!-- ./col -->--}}
-    {{--<div class="col-lg-3 col-xs-6">--}}
-    {{--<!-- small box -->--}}
-    {{--<div class="small-box bg-green">--}}
-    {{--<div class="inner">--}}
-    {{--<h3>53<sup style="font-size: 20px">%</sup></h3>--}}
+    </div>
 
-    {{--<p>Bounce Rate</p>--}}
-    {{--</div>--}}
-    {{--<div class="icon">--}}
-    {{--<i class="ion ion-stats-bars"></i>--}}
-    {{--</div>--}}
-    {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<!-- ./col -->--}}
-    {{--<div class="col-lg-3 col-xs-6">--}}
-    {{--<!-- small box -->--}}
-    {{--<div class="small-box bg-yellow">--}}
-    {{--<div class="inner">--}}
-    {{--<h3>44</h3>--}}
 
-    {{--<p>User Registrations</p>--}}
-    {{--</div>--}}
-    {{--<div class="icon">--}}
-    {{--<i class="ion ion-person-add"></i>--}}
-    {{--</div>--}}
-    {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<!-- ./col -->--}}
-    {{--<div class="col-lg-3 col-xs-6">--}}
-    {{--<!-- small box -->--}}
-    {{--<div class="small-box bg-red">--}}
-    {{--<div class="inner">--}}
-    {{--<h3>65</h3>--}}
-
-    {{--<p>Unique Visitors</p>--}}
-    {{--</div>--}}
-    {{--<div class="icon">--}}
-    {{--<i class="ion ion-pie-graph"></i>--}}
-    {{--</div>--}}
-    {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<!-- ./col -->--}}
-    {{--</div>--}}
-    {{--<!-- /.row -->--}}
-    {{--<!-- Main row -->--}}
+    <!-- /.row -->
+    <!-- Main row -->
     {{--<div class="row">--}}
     {{--<!-- Left col -->--}}
     {{--<section class="col-lg-7 connectedSortable">--}}
@@ -508,11 +559,11 @@
     {{--</section>--}}
     {{--<!-- right col -->--}}
     {{--</div>--}}
-    {{--<!-- /.row (main row) -->--}}
+    <!-- /.row (main row) -->
 
     {{--</section>--}}
     <!-- /.content -->
-    </div>
+    {{--</div>--}}
     <!-- /.content-wrapper -->
 
 @endsection
