@@ -735,20 +735,28 @@ class UserController extends DashboardController
         $this->admin_data['user'] = Member::find($id);
         return view('admin.user.edit', $this->admin_data);
     }
+
     public function updateUser(Request $request)
     {
 
-        $user =Member::where('membership_no','=', $request->membership_no)->first();
+        $user = Member::where('membership_no', '=', $request->membership_no)->first();
 
-        $user->name= $request->name;
-        $user->address= $request->address;
-        $user->user_valid_date= $request->user_valid_date;
-        $user->gender= $request->gender;
-        $user->admission_date= $request->admission_date;
-        $user->package_rate= $request->package_rate;
-        $user->email= $request->email;
-        $user->contact= $request->contact;
-        $user->user_status= $request->user_status;
+        $user->name = $request->name;
+        $user->address = $request->address;
+        $user->user_valid_date = $request->user_valid_date;
+        $user->gender = $request->gender;
+        $user->admission_date = $request->admission_date;
+        $user->package_rate = $request->package_rate;
+        $user->email = $request->email;
+        $user->contact = $request->contact;
+//
+//            $image = $request->file('image');
+//        $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+//        $destinationPath = public_path('/images');
+//        $image->move($destinationPath, $input['imagename']);
+//        $this->postImage->add($input);
+
+        $user->user_status = $request->user_status;
         $user->save();
         Session::flash('successMsg', 'User updated successfully');
         return response()->json(['success' => true, 'message' => 'User updated successfully', 'data' => null], 200);

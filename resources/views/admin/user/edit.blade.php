@@ -25,7 +25,7 @@
                             <h3 class="box-title">Edit</h3>
                         </div>
 
-                        <form role="form" id="update_user">
+                        <form role="form"  id="update_user">
                             {!! csrf_field() !!}
                             <div class="box-body">
 
@@ -111,14 +111,13 @@
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">User photo</span>
-                                            {{--<input type="text" class="form-control" placeholder="User valid date"--}}
-                                            {{--value="{{$user->package_rate}}" name="package_rate">--}}
+                                            {{--<input type="file" name="image">--}}
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">User status</span>
-                                            <input type="text" class="form-control" placeholder="Gender"
+                                            <input type="text" class="form-control" placeholder="User status"
                                                    value="{{$user->user_status}}" name="user_status">
                                         </div>
                                     </div>
@@ -146,6 +145,7 @@
                 },
                 data: $(this).serialize(),
                 success: function (response) {
+
                     location.reload();
                     // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
 
