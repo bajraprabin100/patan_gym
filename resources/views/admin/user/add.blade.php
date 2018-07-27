@@ -47,14 +47,14 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Membership No</span>
                                                     <input type="text" class="form-control" placeholder="Member No"
-                                                           name="membership_no" readonly>
+                                                           name="membership_no" readonly value="{{$membership_no}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Bill No</span>
                                                     <input type="text" class="form-control" placeholder="Bill No"
-                                                           name="bill_no" readonly>
+                                                           name="bill_no" readonly value="{{$bill_no}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -259,8 +259,7 @@
                     data:$(this).serialize(),
                     success: function (response) {
 
-                      $('[name=bill_no]').val(response.data.bill_no);
-                      $('[name=membership_no]').val(response.data.membership_no);
+                      // $('[name=bill_no]').val(response.data.bill_no);
                         $(".error_msg").text(response.message);
                         $(".error_msg").fadeIn(300).delay(1500).fadeOut(400);
 

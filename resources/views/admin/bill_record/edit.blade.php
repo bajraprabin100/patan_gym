@@ -38,7 +38,7 @@
                                                         Date
                                                     </button>
                                                  </span>
-                                            <input type="text" id="datepicker" class="form-control"
+                                            <input type="text" id="datepicker2" class="form-control"
                                                    placeholder="Date" value="{{$bill_record->date}}" name="date" required>
                                         </div>
                                     </div>

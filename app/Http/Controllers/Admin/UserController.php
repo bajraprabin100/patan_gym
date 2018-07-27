@@ -74,11 +74,7 @@ class UserController extends DashboardController
         return response()->json(['success' => true, 'message' => '', 'data' => ['price' => $month->price, 'user_valid_date' => $user_valid_date]], 200);
     }
 
-    public function addUser()
-    {
-        $this->admin_data['packages'] = Package::all();
-        return view('admin.user.add', $this->admin_data);
-    }
+
 
     public function selectedfunctionType(Request $request)
     {
@@ -628,7 +624,7 @@ class UserController extends DashboardController
         $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
         $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
         $bil_record->save();
-        Session::flash('successMsg', 'New Bill Record Added successfully');
+        Session::flash('successMsg',$bil_record->bill_no. ' Record Added successfully');
         return response()->json(['success' => true, 'message' => 'New Bill Record Added successfully', 'data' => null], 200);
 
     }
@@ -641,10 +637,31 @@ class UserController extends DashboardController
             ->get();
         return view('admin.bill_record.list', $this->admin_data);
     }
+    public function addUser()
+    {
+        $query = Member::select(DB::raw("MAX(membership_no)+1 AS membership_no"))->first();
+        if ($query->membership_no != null) {
 
+            $this->admin_data['membership_no'] = $query->membership_no;
+        } else {
+            $this->admin_data['membership_no'] = 1;
+        }
+        $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
+        if ($query->bill_no != null) {
+            $this->admin_data['bill_no'] = $query->bill_no;
+        } else {
+            $this->admin_data['bill_no'] = 1;
+        }
+        $this->admin_data['packages'] = Package::all();
+        return view('admin.user.add', $this->admin_data);
+    }
     public function storeUser(Request $request)
     {
-        if (!$request->membership_no) {
+        $member_check=Member::where('membership_no','=',$request->membership_no)->first();
+        if ($member_check) {
+            return response()->json(['success' => true, 'message' => 'Already saved', 'data' => null], 200);
+
+        }
             $data = $request->all();
             DB::beginTransaction();
             try {
@@ -656,23 +673,14 @@ class UserController extends DashboardController
                 foreach ($input as $i) {
                     $data[$i] = isset($data[$i]) ? $data[$i] : '';
                 }
-                $query = Member::select(DB::raw("MAX(membership_no)+1 AS membership_no"))->first();
-                if ($query->membership_no != null) {
 
-                    $data['membership_no'] = $query->membership_no;
-                } else {
-                    $data['membership_no'] = 1;
-                }
                 $data['user_status'] = 'Active';
                 Member::create($data);
                 $bil_record = new BillsRecord();
                 $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
-                $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
-                if ($query->bill_no != null) {
-                    $bil_record->bill_no = $query->bill_no;
-                } else {
-                    $bil_record->bill_no = 1;
-                }
+                $bil_record->bill_no = isset($request['bill_no']) ? $request['bill_no'] : '';
+                $bil_record->package = '';
+
                 $bil_record->amount = isset($request->paid_amount) ? $request->paid_amount : '0';
                 $bil_record->discount = isset($request->discount) ? $request->discount : '0';
                 $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
@@ -687,8 +695,7 @@ class UserController extends DashboardController
                 dd($e->getMessage());
                 // something went wrong
             }
-            return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => ['membership_no' => $data['membership_no'], 'bill_no' => $bil_record->bill_no]], 200);
-        }
+            return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => null], 200);
     }
 
     public function deleteBillRecord(Request $request)
@@ -715,12 +722,7 @@ class UserController extends DashboardController
 
         $bill_record->date = isset($request->date) ? $request->date : '0';
         $bill_record->membership_no = isset($request->membership_no) ? $request->membership_no : '';
-        $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
-        if ($query->bill_no != null) {
-            $bill_record->bill_no = $query->bill_no;
-        } else {
-            $bill_record->bill_no = 1;
-        }
+
         $bill_record->package = isset($request->package) ? $request->package : '0';
         $bill_record->amount = isset($request->amount) ? $request->amount : '0';
         $bill_record->discount = isset($request->discount) ? $request->discount : '0';

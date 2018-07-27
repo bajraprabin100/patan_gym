@@ -410,6 +410,7 @@
     //     })
     // })
     $("#datepicker").datepicker({ dateFormat: "yy-mm-dd"}).datepicker("setDate", "0");
+    $("#datepicker2").datepicker({ dateFormat: "yy-mm-dd"});
 
 </script>
 
