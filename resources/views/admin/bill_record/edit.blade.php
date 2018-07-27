@@ -58,12 +58,10 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="input-group">
-                                            <span class="input-group-addon">Membership Name</span>
-                                            <select name="membership_no" class="form-control">
+                                            <label for="">Membership Name: </label>
 
-                                                @foreach($members as $m)
-                                                    <option value="{{$m->membership_no}}" required {{$m->membership_no==$bill_record->membership_no?'selected':''}}>{{$m->name}}</option>
-                                                @endforeach
+                                                <a href="{{route('admin.user.bill_detail',['membership_no'=>$bill_record->membership_no,'token'=>$token])}}" data-id="{{$bill_record->membership_no}}"
+                                                   class="btn-delete">{{$bill_record->name}}</a>
 
                                             </select>
                                         </div>

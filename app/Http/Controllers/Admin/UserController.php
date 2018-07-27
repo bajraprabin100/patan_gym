@@ -690,6 +690,7 @@ class UserController extends DashboardController
             $data['user_status'] = 'Active';
             Member::create($data);
             $bil_record = new BillsRecord();
+            $bil_record->date = isset($request->admission_date) ? $request->admission_date : '';
             $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
             $bil_record->bill_no = isset($request['bill_no']) ? $request['bill_no'] : '';
             $bil_record->package = '';
@@ -725,7 +726,7 @@ class UserController extends DashboardController
     {
 
         $this->admin_data['members'] = Member::all();
-        $this->admin_data['bill_record'] = BillsRecord::where('id', '=', $id)->first();
+        $this->admin_data['bill_record'] = BillsRecord::where('bills_record.id', '=', $id)->leftJoin('members as m','m.membership_no','=','bills_record.membership_no')->first();
         return view('admin.bill_record.edit', $this->admin_data);
 
     }
