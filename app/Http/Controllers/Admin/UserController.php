@@ -75,7 +75,6 @@ class UserController extends DashboardController
     }
 
 
-
     public function selectedfunctionType(Request $request)
     {
 
@@ -602,6 +601,12 @@ class UserController extends DashboardController
 
     public function billRecord()
     {
+        $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
+        if ($query->bill_no != null) {
+            $this->admin_data['bill_no'] = $query->bill_no;
+        } else {
+            $this->admin_data['bill_no'] = 1;
+        }
         $this->admin_data['members'] = Member::all();
         return view('admin.bill_record.index', $this->admin_data);
     }
@@ -623,20 +628,27 @@ class UserController extends DashboardController
         $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
         $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
         $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
+        $bil_record->valid_date = isset($request->user_valid_date) ? $request->user_valid_date : '';
         $bil_record->save();
-        Session::flash('successMsg',$bil_record->bill_no. ' Record Added successfully');
+        $member=Member::where('membership_no','=',$request->membership_no)->first();
+        if($member){
+            $member->user_valid_date=$request->user_valid_date;
+            $member->save();
+        }
+        Session::flash('successMsg', $bil_record->bill_no . ' Record Added successfully');
         return response()->json(['success' => true, 'message' => 'New Bill Record Added successfully', 'data' => null], 200);
 
     }
 
     public function listBillRecord()
     {
-        $this->admin_data['bill_records'] = BillsRecord::select( 'members.*','bills_record.*')
+        $this->admin_data['bill_records'] = BillsRecord::select('members.*', 'bills_record.*')
             ->leftJoin('members', 'members.membership_no', '=', 'bills_record.membership_no')
             ->orderBy('bills_record.id', 'desc')
             ->get();
         return view('admin.bill_record.list', $this->admin_data);
     }
+
     public function addUser()
     {
         $query = Member::select(DB::raw("MAX(membership_no)+1 AS membership_no"))->first();
@@ -655,47 +667,50 @@ class UserController extends DashboardController
         $this->admin_data['packages'] = Package::all();
         return view('admin.user.add', $this->admin_data);
     }
+
     public function storeUser(Request $request)
     {
-        $member_check=Member::where('membership_no','=',$request->membership_no)->first();
+        $member_check = Member::where('membership_no', '=', $request->membership_no)->first();
         if ($member_check) {
             return response()->json(['success' => true, 'message' => 'Already saved', 'data' => null], 200);
 
         }
-            $data = $request->all();
-            DB::beginTransaction();
-            try {
-                $input = [
-                    'membership_no', 'name', 'address', 'user_valid_date', 'gender', 'admission_date', 'package_rate', 'email', 'contact', 'photo', 'user_status'
-                ];
+        $data = $request->all();
+        DB::beginTransaction();
+        try {
+            $input = [
+                'membership_no', 'name', 'address', 'user_valid_date', 'gender', 'admission_date', 'package_rate', 'email', 'contact', 'photo', 'user_status'
+            ];
 
 
-                foreach ($input as $i) {
-                    $data[$i] = isset($data[$i]) ? $data[$i] : '';
-                }
-
-                $data['user_status'] = 'Active';
-                Member::create($data);
-                $bil_record = new BillsRecord();
-                $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
-                $bil_record->bill_no = isset($request['bill_no']) ? $request['bill_no'] : '';
-                $bil_record->package = '';
-
-                $bil_record->amount = isset($request->paid_amount) ? $request->paid_amount : '0';
-                $bil_record->discount = isset($request->discount) ? $request->discount : '0';
-                $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
-                $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
-                $bil_record->remarks = 'Admission';
-                $bil_record->save();
-                DB::commit();
-
-            } catch (\Exception $e) {
-                DB::rollback();
-                Session::flash('successMsg', $e->getMessage());
-                dd($e->getMessage());
-                // something went wrong
+            foreach ($input as $i) {
+                $data[$i] = isset($data[$i]) ? $data[$i] : '';
             }
-            return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => null], 200);
+
+            $data['user_status'] = 'Active';
+            Member::create($data);
+            $bil_record = new BillsRecord();
+            $bil_record->membership_no = isset($data['membership_no']) ? $data['membership_no'] : '';
+            $bil_record->bill_no = isset($request['bill_no']) ? $request['bill_no'] : '';
+            $bil_record->package = '';
+
+            $bil_record->amount = isset($request->paid_amount) ? $request->paid_amount : '0';
+            $bil_record->discount = isset($request->discount) ? $request->discount : '0';
+            $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
+            $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
+            $bil_record->remarks = 'Admission';
+            $bil_record->save();
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Session::flash('successMsg', $e->getMessage());
+            dd($e->getMessage());
+            // something went wrong
+        }
+        Session::flash('successMsg', 'User added Successfully');
+
+        return response()->json(['success' => true, 'message' => 'Successfully saved', 'data' => null], 200);
     }
 
     public function deleteBillRecord(Request $request)
@@ -719,10 +734,8 @@ class UserController extends DashboardController
     {
         $bill_record = BillsRecord::where('bill_no', '=', $request->bill_no)
             ->first();
-
         $bill_record->date = isset($request->date) ? $request->date : '0';
         $bill_record->membership_no = isset($request->membership_no) ? $request->membership_no : '';
-
         $bill_record->package = isset($request->package) ? $request->package : '0';
         $bill_record->amount = isset($request->amount) ? $request->amount : '0';
         $bill_record->discount = isset($request->discount) ? $request->discount : '0';
@@ -750,16 +763,24 @@ class UserController extends DashboardController
 
     public function editUser($id)
     {
-        $this->admin_data['user'] = Member::where('membership_no','=',$id)->first();
+        $this->admin_data['user'] = Member::where('membership_no', '=', $id)->first();
         return view('admin.user.edit', $this->admin_data);
     }
 
-    public function queryNotifications(Request $request){
-        $notifications=Notifications::where('id','=',$request->id)->first();
-        $notifications->status=1;
+    public function queryNotifications(Request $request)
+    {
+        $notifications = Notifications::where('id', '=', $request->id)->first();
+        $notifications->status = 1;
         $notifications->save();
-        return redirect()->route('admin.user.edit',['id'=>$notifications->reference_id,'token'=>Session::get('token')]);
+        return redirect()->route('admin.user.edit', ['id' => $notifications->reference_id, 'token' => Session::get('token')]);
     }
+
+    public function memberSelected(Request $request)
+    {
+        $member = Member::where('membership_no', '=', $request->membership_no)->first();
+        return response()->json(['success' => true, 'message' => 'member name', 'data' => ['name' => $member->name]]);
+    }
+
     public function updateUser(Request $request)
     {
 
@@ -773,15 +794,15 @@ class UserController extends DashboardController
 //        $image->move($destinationPath, $input['imagename']);
 //        $this->postImage->add($input);
 
-        $user->name= $request->name;
-        $user->address= isset($request->address)?$request->address:'';
-        $user->user_valid_date= $request->user_valid_date;
-        $user->gender= $request->gender;
-        $user->admission_date= $request->admission_date;
-        $user->package_rate= isset($request->package_rate)?$request->package_rate:' ';
-        $user->email= isset($request->email)?$request->email:'';
-        $user->contact= isset($request->contact)?$request->contact:'';
-        $user->user_status= $request->user_status;
+        $user->name = $request->name;
+        $user->address = isset($request->address) ? $request->address : '';
+        $user->user_valid_date = $request->user_valid_date;
+        $user->gender = $request->gender;
+        $user->admission_date = $request->admission_date;
+        $user->package_rate = isset($request->package_rate) ? $request->package_rate : ' ';
+        $user->email = isset($request->email) ? $request->email : '';
+        $user->contact = isset($request->contact) ? $request->contact : '';
+        $user->user_status = $request->user_status;
         $user->save();
         Session::flash('successMsg', 'User updated successfully');
         return response()->json(['success' => true, 'message' => 'User updated successfully', 'data' => null], 200);

@@ -258,8 +258,12 @@
                     },
                     data:$(this).serialize(),
                     success: function (response) {
+                        if(response.success==true){
+                            var success_url="{{route('admin.user.list')}}";
+                            window.location.href=success_url+'?token='+"{{$token}}";
+                        }
 
-                      // $('[name=bill_no]').val(response.data.bill_no);
+                        // $('[name=bill_no]').val(response.data.bill_no);
                         $(".error_msg").text(response.message);
                         $(".error_msg").fadeIn(300).delay(1500).fadeOut(400);
 
