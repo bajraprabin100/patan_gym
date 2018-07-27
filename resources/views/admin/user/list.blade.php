@@ -56,7 +56,7 @@
                                                     data-toggle="dropdown">Action
                                                 <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{{route('admin.user.edit',['id'=>$p->id,'token'=>$token])}}" data-id="{{$p->id}}" class="btn-edit">Edit</a>
+                                                <li><a href="{{route('admin.user.edit',['id'=>$p->membership_no,'token'=>$token])}}" data-id="{{$p->id}}" class="btn-edit">Edit</a>
                                                 </li>
                                                 {{--<li><a href="#" data-id="{{$p->id}}"--}}
                                                        {{--class="btn-delete">Delete</a></li>--}}

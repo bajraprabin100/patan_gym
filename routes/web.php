@@ -19,6 +19,7 @@ Route::get('/app/logout', 'JwtAuthenticateController@logout')->name('app.logout'
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['ability:admin|destination,create-users'], 'as' => 'admin.'], function () {
     // Protected route
     Route::get('notifications/view_all','UserController@viewNotifications')->name('notification.view_all');
+    Route::get('notifications/query','UserController@queryNotifications')->name('notification.query');
     Route::get('/bill-record', 'UserController@billRecord')->name('billRecord');
     Route::post('/bill-record-store', 'UserController@storeBillRecord')->name('billRecord.store');
     Route::get('/bill-record-list', 'UserController@listBillRecord')->name('billRecord.list');

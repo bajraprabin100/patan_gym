@@ -53,7 +53,7 @@
                                 <ul class="menu">
                                     @foreach($notifications as $n)
                                     <li style={{$n->status==0?"background-color:#f1d8d8":""}}>
-                                        <a href="">
+                                        <a href="{{route('admin.notification.query',['id'=>$n->reference_id,'token'=>$token])}}">
                                             <i class="fa fa-users text-aqua"></i>{{$n->message}}
                                         </a>
                                     </li>

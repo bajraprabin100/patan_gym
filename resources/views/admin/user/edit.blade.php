@@ -84,13 +84,13 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Package Rate</span>
-                                            <input type="text" class="form-control" placeholder="Package Rate"
-                                                   value="{{$user->package_rate}}" name="package_rate">
-                                        </div>
-                                    </div>
+                                    {{--<div class="col-md-4">--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<span class="input-group-addon">Package Rate</span>--}}
+                                            {{--<input type="text" class="form-control" placeholder="Package Rate"--}}
+                                                   {{--value="{{$user->package_rate}}" name="package_rate">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">Email</span>
@@ -108,12 +108,13 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">User photo</span>
-                                            {{--<input type="file" name="image">--}}
-                                        </div>
-                                    </div>
+                                    {{--<div class="col-md-4">--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<span class="input-group-addon">User photo</span>--}}
+                                            {{--<input type="text" class="form-control" placeholder="User valid date"--}}
+                                            {{--value="{{$user->package_rate}}" name="package_rate">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <span class="input-group-addon">User status</span>

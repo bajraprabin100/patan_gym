@@ -119,66 +119,65 @@
 
                                         </div>
                                         <br/>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">Package</span>
-                                                    <select name="select_package" class="form-control" required>
-                                                        <option value="">Select Package</option>
-                                                        @foreach($packages as $p)
-                                                            <option value="{{$p->month}}">{{$p->month}} month</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        {{--<div class="row">--}}
+                                            {{--<div class="col-md-3">--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<span class="input-group-addon">Package</span>--}}
+                                                    {{--<select name="select_package" class="form-control" required>--}}
+                                                        {{--<option value="">Select Package</option>--}}
+                                                        {{--@foreach($packages as $p)--}}
+                                                            {{--<option value="{{$p->month}}">{{$p->month}} month</option>--}}
+                                                        {{--@endforeach--}}
+                                                    {{--</select>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
 
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-sm">
-                                                 <span class="input-group-btn">    <button type="button"
-                                                                                           class="btn btn-info btn-flat pwd_click">Package Rate
-                                                    </button>
-                                                        </span>
+                                            {{--<div class="col-md-4">--}}
+                                                {{--<div class="input-group input-group-sm">--}}
+                                                 {{--<span class="input-group-btn">    <button type="button"--}}
+                                                                                           {{--class="btn btn-info btn-flat pwd_click">Package Rate--}}
+                                                    {{--</button>--}}
+                                                        {{--</span>--}}
 
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Package Rate" name="package_rate">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">Discount</span>
-                                                    <input type="text" name="discount" class="form-control" value="0">
+                                                    {{--<input type="text" class="form-control"--}}
+                                                           {{--placeholder="Package Rate" name="package_rate">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="col-md-4">--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<span class="input-group-addon">Discount</span>--}}
+                                                    {{--<input type="text" name="discount" class="form-control" value="0">--}}
 
-                                                </div>
-                                            </div>
+                                                {{--</div>--}}
+                                            {{--</div>--}}
 
 
-                                        </div>
-                                        <br/>
+                                        {{--</div>--}}
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="input-group">
                                                    <span class="input-group-btn">
                                                        <button type="button"
-                                                               class="btn btn-info btn-flat pwd_click">Paid Amount
+                                                               class="btn btn-info btn-flat pwd_click">Admission Amount
                                                     </button>
                                                         </span>
 
                                                     <input type="text" class="form-control"
-                                                           placeholder="Paid Amount" name="paid_amount" value="0">
+                                                           placeholder="Admission Amount" name="paid_amount" value="0" required>
                                                 </div>
                                             </div>
 
 
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-sm">
-                                                 <span class="input-group-addon">
-                                                     Due Amount
-                                                        </span>
+                                            {{--<div class="col-md-4">--}}
+                                                {{--<div class="input-group input-group-sm">--}}
+                                                 {{--<span class="input-group-addon">--}}
+                                                     {{--Due Amount--}}
+                                                        {{--</span>--}}
 
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Due Amount" name="due_amount">
-                                                </div>
-                                            </div>
+                                                    {{--<input type="text" class="form-control"--}}
+                                                           {{--placeholder="Due Amount" name="due_amount">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
                                             <div class="col-md-4">
                                                 <div class="input-group">
                                         <span class="input-group-addon">
@@ -186,7 +185,7 @@
                                                         </span>
                                                     <input type="text" class="form-control"
                                                            placeholder="User valid date"
-                                                           name="user_valid_date">
+                                                           name="user_valid_date" value="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
 
