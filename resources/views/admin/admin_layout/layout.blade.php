@@ -13,6 +13,7 @@
     <!-- Bootstrap 3.3.7 -->
 
     <link rel="stylesheet" href="{{url('css/all.css')}}">
+    <link rel="stylesheet" href="{{url('bower_components/jquery-ui/themes/base/jquery-ui.css')}}">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -57,11 +58,13 @@
                                             <i class="fa fa-users text-aqua"></i>{{$n->message}}
                                         </a>
                                     </li>
+
                                     @endforeach
 
-                                     </ul>
+                                </ul>
                             </li>
-                            <li class="footer"><a href="{{route('admin.notification.view_all',['token'=>$token])}}">View all</a></li>
+                            <li class="footer"><a href="{{route('admin.notification.view_all',['token'=>$token])}}">View
+                                    all</a></li>
                         </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
@@ -115,69 +118,42 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li><a href="{{route('admin.dashboard',['token'=>$token])}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                 </li>
+                <li><a href="{{route('admin.package',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
+                        <span>Package Information</span></a>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>
-                        <span>Parameter</span>
+                        <span>Bill Record</span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
                     </a>
                     <ul class="treeview-menu">
-
-
-                        <li><a href="{{route('admin.package',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
-                                <span>Package Information</span></a>
+                        <li><a href="{{route('admin.billRecord',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
+                                <span>Add </span></a>
                         </li>
-
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-pie-chart"></i>
-                                    <span>Bill Record</span>
-                                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
-                                </a>
-                                <ul class="treeview-menu">
-
-
-                                    <li><a href="{{route('admin.billRecord',['token'=>$token])}}"><i class="fa fa-circle-o"></i>
-                                            <span>Add </span></a>
-                                    </li>
-                                    <li><a href="{{route('admin.billRecord.list',['token'=>$token])}}"><i
-                                                    class="fa fa-circle-o"></i>
-                                            <span>List</span></a>
-                                    </li>
-
-
-                                </ul>
-
-                            </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-pie-chart"></i>
-                                <span>User</span>
-                                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
-                            </a>
-                            <ul class="treeview-menu">
-
-
-                                <li><a href="{{route('admin.user.add',['token'=>$token])}}"><i
-                                                class="fa fa-circle-o"></i>
-                                        <span>Add</span></a>
-                                </li>
-                                <li><a href="{{route('admin.user.list',['token'=>$token])}}"><i
-                                                class="fa fa-circle-o"></i>
-                                        <span>List</span></a>
-                                </li>
-
-
-                            </ul>
-
+                        <li><a href="{{route('admin.billRecord.list',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>List</span></a>
                         </li>
-
-
                     </ul>
-
                 </li>
-
-
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>User</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('admin.user.add',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Add</span></a>
+                        </li>
+                        <li><a href="{{route('admin.user.list',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>List</span></a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -433,6 +409,8 @@
     //         'autoWidth'   : false
     //     })
     // })
+    $("#datepicker").datepicker({ dateFormat: "yy-mm-dd"}).datepicker("setDate", "0");
+
 </script>
 
 </body>

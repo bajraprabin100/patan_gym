@@ -28,11 +28,13 @@
                             <thead>
                             <tr>
                                 <th>SNo</th>
-                                <th>Membership No</th>
+                                <th>Record Date</th>
+                                <th>Membership Name</th>
+                                <th>Package</th>
                                 <th>Bill No</th>
-                                <th>Amount</th>
-                                <th>Discount</th>
+                                <th>Total Amount</th>
                                 <th>Paid amount</th>
+                                <th>Discount</th>
                                 <th>Due Amount</th>
                                 <th>Remarks</th>
                                 <th>Action</th>
@@ -43,11 +45,13 @@
                             @foreach($bill_records as $b)
                                 <tr>
                                     <td>{{$i++}}</td>
-                                    <td>{{$b->membership_no}} </td>
+                                    <td>{{$b->date}}</td>
+                                    <td>{{$b->name}} </td>
+                                    <td>{{$b->package}} </td>
                                     <td>{{$b->bill_no}} </td>
                                     <td>{{$b->amount}}</td>
-                                    <td>{{$b->discount}}</td>
                                     <td>{{$b->paid_amount}}</td>
+                                    <td>{{$b->discount}}</td>
                                     <td>{{$b->due_amount}}</td>
                                     <td>{{$b->remarks}}</td>
                                     <td>

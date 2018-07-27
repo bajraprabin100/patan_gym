@@ -606,12 +606,14 @@ class UserController extends DashboardController
 
     public function billRecord()
     {
+        $this->admin_data['members'] = Member::all();
         return view('admin.bill_record.index', $this->admin_data);
     }
 
     public function storeBillRecord(Request $request)
     {
         $bil_record = new BillsRecord();
+        $bil_record->date = isset($request->date) ? $request->date : '0';
         $bil_record->membership_no = isset($request->membership_no) ? $request->membership_no : '';
         $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
         if ($query->bill_no != null) {
@@ -619,6 +621,7 @@ class UserController extends DashboardController
         } else {
             $bil_record->bill_no = 1;
         }
+        $bil_record->package = isset($request->package) ? $request->package : '0';
         $bil_record->amount = isset($request->amount) ? $request->amount : '0';
         $bil_record->discount = isset($request->discount) ? $request->discount : '0';
         $bil_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
@@ -632,7 +635,10 @@ class UserController extends DashboardController
 
     public function listBillRecord()
     {
-        $this->admin_data['bill_records'] = BillsRecord::orderBy('id', 'desc')->get();
+        $this->admin_data['bill_records'] = BillsRecord::select( 'members.*','bills_record.*')
+            ->leftJoin('members', 'members.membership_no', '=', 'bills_record.membership_no')
+            ->orderBy('bills_record.id', 'desc')
+            ->get();
         return view('admin.bill_record.list', $this->admin_data);
     }
 
@@ -695,6 +701,8 @@ class UserController extends DashboardController
 
     public function editBillRecord($id)
     {
+
+        $this->admin_data['members'] = Member::all();
         $this->admin_data['bill_record'] = BillsRecord::where('id', '=', $id)->first();
         return view('admin.bill_record.edit', $this->admin_data);
 
@@ -704,13 +712,21 @@ class UserController extends DashboardController
     {
         $bill_record = BillsRecord::where('bill_no', '=', $request->bill_no)
             ->first();
-        $bill_record->membership_no = $request->membership_no;
-        $bill_record->bill_no = $request->bill_no;
-        $bill_record->amount = $request->amount;
-        $bill_record->discount = $request->discount;
-        $bill_record->paid_amount = $request->paid_amount;
-        $bill_record->due_amount = $request->due_amount;
-        $bill_record->remarks = isset($request->remarks)?$request->remarks:'';
+
+        $bill_record->date = isset($request->date) ? $request->date : '0';
+        $bill_record->membership_no = isset($request->membership_no) ? $request->membership_no : '';
+        $query = BillsRecord::select(DB::raw("MAX(bill_no)+1 AS bill_no"))->first();
+        if ($query->bill_no != null) {
+            $bill_record->bill_no = $query->bill_no;
+        } else {
+            $bill_record->bill_no = 1;
+        }
+        $bill_record->package = isset($request->package) ? $request->package : '0';
+        $bill_record->amount = isset($request->amount) ? $request->amount : '0';
+        $bill_record->discount = isset($request->discount) ? $request->discount : '0';
+        $bill_record->paid_amount = isset($request->paid_amount) ? $request->paid_amount : '0';
+        $bill_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
+        $bill_record->remarks = isset($request->remarks) ? $request->remarks : '';
         $bill_record->save();
 
         Session::flash('successMsg', 'Bill record updated successfully');
@@ -769,9 +785,11 @@ class UserController extends DashboardController
         return response()->json(['success' => true, 'message' => 'User updated successfully', 'data' => null], 200);
 
     }
-    public function viewNotifications(){
-        $this->admin_data['all_not']=Notifications::orderBy('id','desc')->get();
-        return view('admin.user.view_notifications',$this->admin_data);
+
+    public function viewNotifications()
+    {
+        $this->admin_data['all_not'] = Notifications::orderBy('id', 'desc')->get();
+        return view('admin.user.view_notifications', $this->admin_data);
 
     }
 }

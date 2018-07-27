@@ -15,6 +15,8 @@ class CreateBillsRecordTable extends Migration
     {
         Schema::create('bills_record', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date');
+            $table->string('package');
             $table->string('membership_no');
             $table->string('bill_no')->unique();
             $table->float('amount',10,2);
