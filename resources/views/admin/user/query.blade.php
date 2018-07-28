@@ -16,22 +16,17 @@
         </section>
         <section class="content">
             <div class="row">
-
                 @include('flash.message')
-
                 <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Add query</h3>
                         </div>
-
-
                         <form role="form" target="_blank"
                               action="{{route('admin.user.cash_entry.query',['token'=>$token])}}"
                               method="POST" id="post_method">
                             {!! csrf_field() !!}
                             <div class="box-body">
-
                                 <br/>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -60,6 +55,4 @@
             </div>
         </section>
     </div>
-
-
 @endsection

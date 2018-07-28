@@ -632,11 +632,22 @@ class UserController extends DashboardController
         $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
         $bil_record->valid_date = isset($request->user_valid_date) ? $request->user_valid_date : '';
         $bil_record->save();
+
+        $bil_record = new CashBook();
+        $bil_record->date = isset($request->date) ? $request->date : '0';
+        $bil_record->particular = isset($request->member_name) ? $request->member_name : '';
+        $bil_record->debit_amount = isset($request->paid_amount) ? $request->paid_amount : '';
+        $bil_record->credit_amount = '0.00';
+        $bil_record->save();
+
+
         $member = Member::where('membership_no', '=', $request->membership_no)->first();
         if ($member) {
             $member->user_valid_date = $request->user_valid_date;
             $member->save();
         }
+
+
         Session::flash('successMsg', $bil_record->bill_no . ' Record Added successfully');
         return response()->json(['success' => true, 'message' => 'New Bill Record Added successfully', 'data' => null], 200);
 
@@ -703,6 +714,15 @@ class UserController extends DashboardController
             $bil_record->due_amount = isset($request->due_amount) ? $request->due_amount : '0';
             $bil_record->remarks = 'Admission';
             $bil_record->save();
+
+            $bil_record = new CashBook();
+            $bil_record->date = isset($request->admission_date) ? $request->admission_date : '';
+            $bil_record->particular = isset($request->name) ? $request->name : '';
+            $bil_record->debit_amount = isset($request->paid_amount) ? $request->paid_amount : '';
+            $bil_record->credit_amount = '0.00';
+            $bil_record->save();
+
+
             DB::commit();
 
         } catch (\Exception $e) {
