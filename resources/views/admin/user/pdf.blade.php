@@ -52,38 +52,60 @@ Cash book Entry <br>
 <div style="width: 100%; height: 1px; background-color: #000; margin: 3px 0;"></div>
 <ul style="font-size: 12px; font-weight: 300; list-style: none; padding-left: 0px; margin: 8px 0 0 0;">
 <li style="display: inline-block; margin:0; padding-left: 0px;">
-Date From : <span style="text-transform: uppercase; padding-left: 5px;">{{$attribute['date_from']}}</span>
+Date From : <span style="text-transform: uppercase; padding-left: 5px;">{{$attribute['year']}}</span>
 </li>
 <li style="display: inline-block; margin:0; padding-left: 75px;">
-Date To : <span style="text-transform: uppercase; padding-left: 5px;">{{$attribute['date_to']}}</span>
+Date To : <span style="text-transform: uppercase; padding-left: 5px;">{{$attribute['month']}}</span>
 </li>
 <li style="display: inline-block; margin:0; padding-left: 75px;">
 Carrier : <span style="text-transform: uppercase; padding-left: 5px;">&nbsp;</span>
 </li>
 </ul>
-<table style="border: none;">
+<table style="width:300px;float:left;" >
 <thead>
 <tr>
-<th>SN</th>
 <th>Date</th>
 <th>Particular</th>
-<th>Debit.Amt</th>
-<th>Credit.Amt</th>
+<th>Amount</th>
 </tr>
 </thead>
 <tbody style="border: none;">
 <?php $i=1; ?>
 @foreach($cash_book as $c)
+    @if($c->debit_amount!=0)
 <tr style="border: none;">
-<td >{{$i++}}</td>
-<td >{{$c->date}}</td>
-<td >{{$c->particular}}</td>
-<td >{{$c->debit_amount}}</td>
-<td >{{$c->credit_amount}}</td>
+
+    <td >{{$c->date}}</td>
+    <td >{{$c->particular}}</td>
+    <td >{{$c->debit_amount}}</td>
 </tr>
+@endif
     @endforeach
 </tbody>
 </table>
+    <table style="float: left;" >
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Particular</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody style="border: none;">
+        <?php $i=1; ?>
+        @foreach($cash_book as $c)
+            @if($c->credit_amount!=0)
+            <tr style="border: none;">
+
+                    <td >{{$c->date}}</td>
+                    <td >{{$c->particular}}</td>
+                    <td >{{$c->credit_amount}}</td>
+            </tr>
+            @endif
+        @endforeach
+        </tbody>
+    </table>
+
 </div>
 
 </body>

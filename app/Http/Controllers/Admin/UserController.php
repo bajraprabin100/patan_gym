@@ -792,7 +792,12 @@ class UserController extends DashboardController
     public function cashEntryQuery(Request $request)
     {
         $this->admin_data['attribute'] = $request->all();
-        $this->admin_data['cash_book'] = CashBook::whereBetween('date', [$request->date_from, $request->date_to])
+        $this->admin_data['cash_book'] = CashBook::whereYear('date', '=', $request->year)
+            ->where(function($query) use ($request){
+                if(isset($request->month)){
+                    $query->whereMonth('date', '=', $request->month);
+                }
+            })
             ->get();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML(view('admin.user.pdf', $this->admin_data)->render());

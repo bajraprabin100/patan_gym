@@ -31,16 +31,24 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <span class="input-group-addon">Date From</span>
-                                            <input type="text" class="form-control datepicker" placeholder="Date From"
-                                                   name="date_from" required>
+                                            <span class="input-group-addon">Year</span>
+                                            <select type="text" class="form-control" name="year" required>
+                                                <option value="">--Select Year--</option>
+                                                @for($i=2017;$i<=2075;$i++)
+                                                <option>{{$i}}</option>
+                                                    @endfor
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <span class="input-group-addon">Date To</span>
-                                            <input type="text" class="form-control datepicker2" placeholder="Particular"
-                                                   name="date_to" required>
+                                            <span class="input-group-addon">Month</span>
+                                            <select type="text" class="form-control" name="month" >
+                                            <option value="">--Select Month--</option>
+                                        @for($i=1;$i<=12;$i++)
+                                                <option>{{$i}}</option>
+                                                @endfor
+                                            </select>
                                         </div>
                                     </div>
                                     <br>

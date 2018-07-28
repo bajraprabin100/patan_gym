@@ -135,14 +135,7 @@
                                         class="fa fa-circle-o"></i>
                                 <span>List</span></a>
                         </li>
-                        <li><a href="{{route('admin.user.cash_entry',['token'=>$token])}}"><i
-                                        class="fa fa-circle-o"></i>
-                                <span>Check cash book</span></a>
-                        </li>
-                        <li><a href="{{route('admin.user.query',['token'=>$token])}}"><i
-                                        class="fa fa-circle-o"></i>
-                                <span>Query</span></a>
-                        </li>
+
                     </ul>
                 </li>
                 <li class="treeview">
@@ -159,6 +152,23 @@
                         <li><a href="{{route('admin.user.list',['token'=>$token])}}"><i
                                         class="fa fa-circle-o"></i>
                                 <span>List</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Cash book Entry</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('admin.user.cash_entry',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Cash Entry</span></a>
+                        </li>
+                        <li><a href="{{route('admin.user.query',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Query</span></a>
                         </li>
                     </ul>
                 </li>
