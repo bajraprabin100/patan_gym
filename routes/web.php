@@ -18,8 +18,8 @@ Route::get('/app/login', ['uses' => 'JwtAuthenticateController@appLogin', 'as' =
 Route::get('/app/logout', 'JwtAuthenticateController@logout')->name('app.logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['ability:admin|destination,create-users'], 'as' => 'admin.'], function () {
     // Protected route
-    Route::get('notifications/view_all','UserController@viewNotifications')->name('notification.view_all');
-    Route::get('notifications/query','UserController@queryNotifications')->name('notification.query');
+    Route::get('notifications/view_all', 'UserController@viewNotifications')->name('notification.view_all');
+    Route::get('notifications/query', 'UserController@queryNotifications')->name('notification.query');
     Route::get('/bill-record', 'UserController@billRecord')->name('billRecord');
     Route::post('/bill-record-store', 'UserController@storeBillRecord')->name('billRecord.store');
     Route::get('/bill-record-list', 'UserController@listBillRecord')->name('billRecord.list');
@@ -42,7 +42,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/user/bill_detail/{id}', 'UserController@billDetail')->name('user.bill_detail');
     Route::get('/user/{id}/edit', 'UserController@editUser')->name('user.edit');
     Route::post('/user/updateDetail', 'UserController@updateUser')->name('user.updateDetail');
-
+    Route::get('/user/cash_entry', 'UserController@cashEntry')->name('user.cash_entry');
+    Route::post('/user/cash_entry', 'UserController@cashEntryPost')->name('user.cash_entry.store');
+    Route::post('/user/cash_entry/query', 'UserController@cashEntryQuery')->name('user.cash_entry.query');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
         Route::post('bill_issue', ['uses' => 'UtilityController@billIssueStore', 'as' => 'bill_issue']);

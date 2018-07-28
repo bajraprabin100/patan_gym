@@ -135,6 +135,10 @@
                                         class="fa fa-circle-o"></i>
                                 <span>List</span></a>
                         </li>
+                        <li><a href="{{route('admin.user.cash_entry',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Check cash book</span></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -410,6 +414,8 @@
     //     })
     // })
     $("#datepicker").datepicker({ dateFormat: "yy-mm-dd"}).datepicker("setDate", "0");
+    $(".datepicker").datepicker({ dateFormat: "yy-mm-dd"}).datepicker("setDate", "0");
+    $(".datepicker2").datepicker({ dateFormat: "yy-mm-dd"}).datepicker("setDate", "0");
     $("#datepicker2").datepicker({ dateFormat: "yy-mm-dd"});
 
 </script>
