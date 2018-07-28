@@ -139,6 +139,10 @@
                                         class="fa fa-circle-o"></i>
                                 <span>Check cash book</span></a>
                         </li>
+                        <li><a href="{{route('admin.user.query',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Query</span></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview">

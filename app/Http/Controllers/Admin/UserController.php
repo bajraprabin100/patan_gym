@@ -632,9 +632,9 @@ class UserController extends DashboardController
         $bil_record->remarks = isset($request->remarks) ? $request->remarks : '';
         $bil_record->valid_date = isset($request->user_valid_date) ? $request->user_valid_date : '';
         $bil_record->save();
-        $member=Member::where('membership_no','=',$request->membership_no)->first();
-        if($member){
-            $member->user_valid_date=$request->user_valid_date;
+        $member = Member::where('membership_no', '=', $request->membership_no)->first();
+        if ($member) {
+            $member->user_valid_date = $request->user_valid_date;
             $member->save();
         }
         Session::flash('successMsg', $bil_record->bill_no . ' Record Added successfully');
@@ -728,7 +728,7 @@ class UserController extends DashboardController
     {
 
         $this->admin_data['members'] = Member::all();
-        $this->admin_data['bill_record'] = BillsRecord::where('bills_record.id', '=', $id)->leftJoin('members as m','m.membership_no','=','bills_record.membership_no')->first();
+        $this->admin_data['bill_record'] = BillsRecord::where('bills_record.id', '=', $id)->leftJoin('members as m', 'm.membership_no', '=', 'bills_record.membership_no')->first();
         return view('admin.bill_record.edit', $this->admin_data);
 
     }
@@ -750,28 +750,39 @@ class UserController extends DashboardController
         Session::flash('successMsg', 'Bill record updated successfully');
         return response()->json(['success' => true, 'message' => 'Bill record updated successfully', 'data' => null], 200);
     }
-    public function cashEntry(){
-        return view('admin.user.cash_entry',$this->admin_data);
+
+    public function cashEntry()
+    {
+        return view('admin.user.cash_entry', $this->admin_data);
 
     }
-    public function cashEntryPost(Request $request){
-       $book=new CashBook();
-       $book->date=$request->date;
-       $book->particular=isset($request->particular)?$request->particular:'';
-       $book->debit_amount=isset($request->debit_amount)?$request->debit_amount:0;
-       $book->credit_amount=isset($request->credit_amount)?$request->credit_amount:0;
-    $book->save();
-    Session::flash('successMsg','Content saved successfully');
-    return response()->json(['success'=>true]);
+
+    public function cashEntryPost(Request $request)
+    {
+        $book = new CashBook();
+        $book->date = $request->date;
+        $book->particular = isset($request->particular) ? $request->particular : '';
+        $book->debit_amount = isset($request->debit_amount) ? $request->debit_amount : 0;
+        $book->credit_amount = isset($request->credit_amount) ? $request->credit_amount : 0;
+        $book->save();
+        Session::flash('successMsg', 'Content saved successfully');
+        return response()->json(['success' => true]);
     }
-    public function cashEntryQuery(Request $request){
-        $this->admin_data['attribute']=$request->all();
-           $this->admin_data['cash_book']= CashBook::whereBetween('date', [$request->date_from, $request->date_to])
+
+    public function cashEntryQuery(Request $request)
+    {
+        $this->admin_data['attribute'] = $request->all();
+        $this->admin_data['cash_book'] = CashBook::whereBetween('date', [$request->date_from, $request->date_to])
             ->get();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML(view('admin.user.pdf', $this->admin_data)->render());
         return $pdf->setPaper('A4', 'portrait')->stream();
 
+    }
+
+    public function query()
+    {
+        return view('admin.user.query', $this->admin_data);
     }
 
     public function userList()

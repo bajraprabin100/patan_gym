@@ -21,7 +21,7 @@
                 <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Add</h3>
+                            <h3 class="box-title">Add Debit</h3>
                         </div>
 
                         <form role="form" id="update_user">
@@ -53,6 +53,58 @@
                                                    name="debit_amount" value="0">
                                         </div>
                                     </div>
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<span class="input-group-addon">Credit</span>--}}
+                                            {{--<input type="text" class="form-control" placeholder="Credit Amount"--}}
+                                                   {{--name="credit_amount" value="0">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                </div>
+                                <br>
+                                <br>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Add Credit</h3>
+                        </div>
+
+                        <form role="form" id="credit_save">
+                            {!! csrf_field() !!}
+                            <div class="box-body">
+
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Date</span>
+                                            <input type="text" class="datepicker form-control" placeholder="Date" id="datepicker_credit"
+                                                   name="date" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Particular</span>
+                                            <input type="text" class="form-control" placeholder="Particular"
+                                                   name="particular" required>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<span class="input-group-addon">Debit</span>--}}
+                                            {{--<input type="text" class="form-control" placeholder="Debit"--}}
+                                                   {{--name="debit_amount" value="0">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-addon">Credit</span>
@@ -68,42 +120,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Add</h3>
-                        </div>
 
-                        <form role="form" target="_blank"
-                              action="{{route('admin.user.cash_entry.query',['token'=>$token])}}"
-                              method="POST" id="post_method">
-                            {!! csrf_field() !!}
-                            <div class="box-body">
-
-                                <br/>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Date From</span>
-                                            <input type="text" class="form-control datepicker" placeholder="Date From"
-                                                   name="date_from" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Date To</span>
-                                            <input type="text" class="form-control datepicker2" placeholder="Particular"
-                                                   name="date_to" required>
-                                        </div>
-                                    </div>
-                                <br>
-                                <br>
-                                    <button type="submit" class="btn btn-primary" style="margin-left:10px">Query</button>
-                             </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -111,6 +128,26 @@
     </div>
     <script>
         $('#update_user').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{route('admin.user.cash_entry.store')}}",
+                method: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
+                },
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success == true) {
+
+                        location.reload();
+                    }
+                    // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
+
+                }
+            })
+
+        });
+        $('#credit_save').on('submit', function (e) {
             e.preventDefault();
             $.ajax({
                 url: "{{route('admin.user.cash_entry.store')}}",
