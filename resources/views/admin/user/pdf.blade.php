@@ -1,39 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        table, td, th {
-            border: 1px solid #000;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 200;
-            padding: 5px;
 
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .company h2, p {
-            text-align: center;
-
-        }
-
-        div.breakNow {
-            page-break-inside: avoid;
-            page-break-after: always;
-        }
-
-        .table2 td {
-            font-size: 12px;
-            padding-bottom: 15px;
-        }
-    </style>
 </head>
 <body>
-
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 <div>
 <div>
 <h2 style="width: 90%; font-weight: 500; text-transform: uppercase;font-size: 12px; margin: 0;">
@@ -61,30 +36,16 @@ Date To : <span style="text-transform: uppercase; padding-left: 5px;">{{$attribu
 Carrier : <span style="text-transform: uppercase; padding-left: 5px;">&nbsp;</span>
 </li>
 </ul>
-<table style="width:300px;float:left;" >
-<thead>
-<tr>
-<th>Date</th>
-<th>Particular</th>
-<th>Amount</th>
-</tr>
-</thead>
-<tbody style="border: none;">
-<?php $i=1; ?>
-@foreach($cash_book as $c)
-    @if($c->debit_amount!=0)
-<tr style="border: none;">
 
-    <td >{{$c->date}}</td>
-    <td >{{$c->particular}}</td>
-    <td >{{$c->debit_amount}}</td>
-</tr>
-@endif
-    @endforeach
-</tbody>
-</table>
-    <table style="float: left;" >
-        <thead>
+
+</div>
+<div>
+    <table id="tblOne" style="width:50%; float:left;border:1px solid;">
+        <tr style="border:none; ">
+            <td ></td>
+            <td ></td>
+            <td >Debit</td>
+        </tr>
         <tr>
             <th>Date</th>
             <th>Particular</th>
@@ -93,20 +54,63 @@ Carrier : <span style="text-transform: uppercase; padding-left: 5px;">&nbsp;</sp
         </thead>
         <tbody style="border: none;">
         <?php $i=1; ?>
+        <?php $debit_amount=0; ?>
         @foreach($cash_book as $c)
+
+            @if($c->debit_amount!=0)
+                <tr style="border:1px solid;">
+
+                    <td >{{$c->date}}</td>
+                    <td >{{$c->particular}}</td>
+                    <td >{{$c->debit_amount}}</td>
+                </tr>
+                <?php $debit_amount+=$c->debit_amount; ?>
+
+            @endif
+        @endforeach
+        <tr style="border:1px solid;">
+
+            <td >Total</td>
+            <td ></td>
+            <td >{{$debit_amount}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <table id="tblTwo" style="width:50%; float:left;">
+        <thead>
+        <tr style="border:none; ">
+            <td ></td>
+            <td ></td>
+            <td >Credit</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>Particular</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody style="border: none;">
+        <?php $i=1; ?>
+        <?php $credit_amount=0; ?>
+        @foreach($cash_book as $c)
+
             @if($c->credit_amount!=0)
-            <tr style="border: none;">
+                <tr>
 
                     <td >{{$c->date}}</td>
                     <td >{{$c->particular}}</td>
                     <td >{{$c->credit_amount}}</td>
-            </tr>
+                <?php $credit_amount+=$c->credit_amount; ?>
             @endif
         @endforeach
+                </tr><tr>
+
+                    <td >Total</td>
+                    <td ></td>
+                    <td >{{$credit_amount}}</td>
+                </tr>
         </tbody>
     </table>
-
 </div>
-
 </body>
 </html>
