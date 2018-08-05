@@ -166,6 +166,10 @@
                                         class="fa fa-circle-o"></i>
                                 <span>Cash Entry</span></a>
                         </li>
+                        <li><a href="{{route('admin.user.cash_entry.list',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>List</span></a>
+                        </li>
                         <li><a href="{{route('admin.user.query',['token'=>$token])}}"><i
                                         class="fa fa-circle-o"></i>
                                 <span>Query</span></a>

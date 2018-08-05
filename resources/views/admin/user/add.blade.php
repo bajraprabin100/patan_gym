@@ -158,12 +158,12 @@
                                                 <div class="input-group">
                                                    <span class="input-group-btn">
                                                        <button type="button"
-                                                               class="btn btn-info btn-flat pwd_click">Admission Amount
+                                                               class="btn btn-info btn-flat pwd_click">Amount
                                                     </button>
                                                         </span>
 
                                                     <input type="text" class="form-control"
-                                                           placeholder="Admission Amount" name="paid_amount" value="0" required>
+                                                           placeholder="Amount" name="paid_amount" value="0" required>
                                                 </div>
                                             </div>
 

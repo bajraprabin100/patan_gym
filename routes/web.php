@@ -44,6 +44,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::post('/user/updateDetail', 'UserController@updateUser')->name('user.updateDetail');
     Route::get('/user/cash_entry', 'UserController@cashEntry')->name('user.cash_entry');
     Route::post('/user/cash_entry', 'UserController@cashEntryPost')->name('user.cash_entry.store');
+    Route::get('/user/cash_entry/list', 'UserController@cashEntryList')->name('user.cash_entry.list');
+    Route::get('/user/cash_entry/list/{id}/edit', 'UserController@editCashEntryList')->name('user.cash_entry.list.edit');
+    Route::post('/user/cash_entry/list/update', 'UserController@updateCashEntryList')->name('user.cash_entry.list.update');
+    Route::get('/user/cash_entry/list/delete', 'UserController@deleteCashEntryList')->name('user.cash_entry.list.delete');
     Route::post('/user/cash_entry/query', 'UserController@cashEntryQuery')->name('user.cash_entry.query');
     Route::get('/user/query', 'UserController@query')->name('user.query');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {

@@ -789,12 +789,41 @@ class UserController extends DashboardController
         return response()->json(['success' => true]);
     }
 
+    public function cashEntryList()
+    {
+        $this->admin_data['cash_entry_list'] = CashBook::all();
+        return view('admin.user.cash_entry_list', $this->admin_data);
+    }
+
+    public function editCashEntryList($id)
+    {
+        $this->admin_data['cash_list'] = CashBook::find($id)->first();
+        return view('admin.user.cash_list_edit', $this->admin_data);
+
+    }
+    public function updateCashEntryList(Request $request){
+        $cash_list = CashBook::where('id','=',$request->cash_id)->first();
+        $cash_list->date =$request->date;
+        $cash_list->particular =$request->particular;
+        $cash_list->debit_amount =$request->debit_amount;
+        $cash_list->credit_amount =$request->credit_amount;
+        $cash_list->save();
+        Session::flash('successMsg', 'Cash List updated successfully');
+    }
+
+    public function deleteCashEntryList(Request $request)
+    {
+        $cash_list = CashBook::where('id', '=', $request->record_id);
+        $cash_list->delete();
+        Session::flash('successMsg', 'Record Deleted Successfully');
+    }
+
     public function cashEntryQuery(Request $request)
     {
         $this->admin_data['attribute'] = $request->all();
         $this->admin_data['cash_book'] = CashBook::whereYear('date', '=', $request->year)
-            ->where(function($query) use ($request){
-                if(isset($request->month)){
+            ->where(function ($query) use ($request) {
+                if (isset($request->month)) {
                     $query->whereMonth('date', '=', $request->month);
                 }
             })
