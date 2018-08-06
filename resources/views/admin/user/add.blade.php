@@ -106,7 +106,7 @@
 
                                                     <input type="text" class="form-control"
                                                            placeholder="Admission Date" name="admission_date"
-                                                           value="{{date('Y-m-d')}}" required>
+                                                           value="{{date('Y-m-d')}}" id="datepicker" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -183,13 +183,16 @@
                                         <span class="input-group-addon">
                                                    User Valid Date
                                                         </span>
+                                                    <?php $today=date('Y-m-d'); ?>
                                                     <input type="text" class="form-control"
                                                            placeholder="User valid date"
-                                                           name="user_valid_date" value="{{date('Y-m-d')}}">
+                                                           name="user_valid_date" value="{{date("Y-m-d", strtotime("+24 month", strtotime($today)))}}">
                                                 </div>
                                             </div>
 
+
                                         </div>
+
                                         {{--<div class="col-md-4">--}}
                                         {{--<div class="input-group">--}}
                                         {{--<span class="input-group-addon">User Valid Date</span>--}}
@@ -197,8 +200,22 @@
                                         {{--name="email">--}}
                                         {{--</div>--}}
                                         {{--</div>--}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="is_member" value="1"> Member
+                                                    </label>
+                                                </div>
 
+
+                                                <div class="col-md-6">
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="box-footer">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
@@ -238,6 +255,7 @@
 
                 }
             })
+
             $('[name=package_rate],[name=discount],[name=paid_amount]').keyup(function () {
                 
                 var package_rate =  $('[name=package_rate]').val();
@@ -248,6 +266,25 @@
 
             })
         });
+        $('[name=admission_date]').change(function () {
+            $.ajax({
+                url: "{{route('admin.user.valid_date')}}",
+                method: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + "{{$token}}");
+                },
+                data: {
+                    admission_date: $("[name=admission_date]").val()
+                },
+                success: function (response) {
+                    $('[name=user_valid_date]').val(response.data.user_valid_date);
+                    // $('.api_error_message').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-ban"></i>Success!</h4>'+response.message+' </div>');
+
+
+                }
+            })
+
+        })
             $('#customer_para').submit(function (e) {
                 e.preventDefault();
                 $.ajax({

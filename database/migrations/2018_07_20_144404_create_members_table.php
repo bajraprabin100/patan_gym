@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->string('contact');
             $table->string('photo');
             $table->string('user_status');
+            $table->boolean('is_member');
 //            $table->string('bill_no');
 //            $table->string('discount');
             $table->timestamps();

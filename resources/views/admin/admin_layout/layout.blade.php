@@ -135,7 +135,10 @@
                                         class="fa fa-circle-o"></i>
                                 <span>List</span></a>
                         </li>
-
+                        <li><a href="{{route('admin.utility.bill_issue',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Bill Issue</span></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -152,6 +155,10 @@
                         <li><a href="{{route('admin.user.list',['token'=>$token])}}"><i
                                         class="fa fa-circle-o"></i>
                                 <span>List</span></a>
+                        </li>
+                        <li><a href="{{route('admin.utility.bill_issue',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Bill Issue</span></a>
                         </li>
                     </ul>
                 </li>
@@ -174,6 +181,24 @@
                                         class="fa fa-circle-o"></i>
                                 <span>Query</span></a>
                         </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Bank Account</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('admin.user.bank_account',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Bank  Entry</span></a>
+                        </li>
+                        <li><a href="{{route('admin.user.bank_account.queryList',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>Query</span></a>
+                        </li>
+
                     </ul>
                 </li>
             </ul>

@@ -50,6 +50,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['abi
     Route::get('/user/cash_entry/list/delete', 'UserController@deleteCashEntryList')->name('user.cash_entry.list.delete');
     Route::post('/user/cash_entry/query', 'UserController@cashEntryQuery')->name('user.cash_entry.query');
     Route::get('/user/query', 'UserController@query')->name('user.query');
+    Route::get('/user/bank_account', 'UserController@bankAccount')->name('user.bank_account');
+    Route::post('/user/bank_account', 'UserController@bankEntryStore')->name('user.bank_account.store');
+    Route::get('/user/bank_account/query', 'UserController@bankAccountQuery')->name('user.bank_account.queryList');
+    Route::post('/user/bank_account/query', 'UserController@bankEntryQuery')->name('user.bank_account.query');
+    Route::get('/user/valid_date','UserController@validDate')->name('user.valid_date');
     Route::group(['prefix' => 'utility', 'as' => 'utility.'], function () {
         Route::get('bill_issue', ['uses' => 'UtilityController@billIssueIndex', 'as' => 'bill_issue']);
         Route::post('bill_issue', ['uses' => 'UtilityController@billIssueStore', 'as' => 'bill_issue']);

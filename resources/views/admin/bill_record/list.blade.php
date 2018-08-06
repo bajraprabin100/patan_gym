@@ -29,6 +29,7 @@
                             <tr>
                                 <th>SNo</th>
                                 <th>Record Date</th>
+                                <th>Membership No</th>
                                 <th>Membership Name</th>
                                 <th>Package</th>
                                 <th>Bill No</th>
@@ -37,6 +38,8 @@
                                 <th>Discount</th>
                                 <th>Due Amount</th>
                                 <th>Remarks</th>
+                                <th>Valid Date</th>
+                                <th>Created At</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -46,6 +49,7 @@
                                 <tr>
                                     <td>{{$i++}}</td>
                                     <td>{{$b->date}}</td>
+                                    <td>{{$b->membership_no}} </td>
                                     <td>{{$b->name}} </td>
                                     <td>{{$b->package}} </td>
                                     <td>{{$b->bill_no}} </td>
@@ -54,6 +58,8 @@
                                     <td>{{$b->discount}}</td>
                                     <td>{{$b->due_amount}}</td>
                                     <td>{{$b->remarks}}</td>
+                                    <td>@if(isset($b->valid_date)){{date("F j, Y", strtotime($b->valid_date))}}@endif</td>
+                                    <td>{{date("F j, Y", strtotime($b->created_at))}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"

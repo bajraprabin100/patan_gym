@@ -60,6 +60,7 @@
                                             <span class="input-group-addon">Membership No</span>
                                             <select name="membership_no" class="form-control dest_select_2">
                                                 <option value="">Select Membership</option>
+                                                <option value="">No member</option>
                                                 @foreach($members as $m)
                                                     <option value="{{$m->membership_no}}"
                                                             required>{{$m->membership_no}}</option>

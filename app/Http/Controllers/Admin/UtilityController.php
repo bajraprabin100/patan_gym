@@ -37,11 +37,13 @@ class UtilityController extends DashboardController
 
     public function billIssueStore(Request $request)
     {
-        if(!$request->isse_id) {
-            $billissue_check = BillStockPara::where('bill_no_from', '>=', $request->bill_no_from)
-                ->where('bill_no_to', '<=', $request->bill_no_from)
+        if (!$request->isse_id) {
+            $billissue_check = BillStockPara::where('prefix', '=', $request->prefix)
+                ->whereRaw($request->bill_no_from.'>=bill_no_from')
+                ->whereRaw($request->bill_no_from.'<=bill_no_to')
                 ->first();
-            $billissue_to = BillStockPara::where('bill_no_from', '>=', $request->bill_no_to)
+            $billissue_to = BillStockPara::where('prefix', '=', $request->prefix)
+                ->where('bill_no_from', '>=', $request->bill_no_to)
                 ->where('bill_no_to', '<=', $request->bill_no_to)
                 ->first();
             if ($billissue_check || $billissue_to) {
@@ -49,13 +51,14 @@ class UtilityController extends DashboardController
             }
             $data = $request->all();
             $query = BillStockPara::select(DB::raw("MAX(CAST(SUBSTRING(issue_id, 6) AS UNSIGNED)+1) AS Issue"))->first();
-            $issue_id = date('Y') . '-' . $query->Issue;
-            $data['issue_id'] = $issue_id;
-            $data['issued_by'] = Auth::user()->id;
+          if($query== null){
+              $data['issue_id']=1;
+          }else
+            $data['issue_id'] = date('Y') . '-' . $query->Issue;
             BillStockPara::create($data);
-            Session::flash('successMsg', $issue_id . ' has been generated and bill issue saved successfully');
+            Session::flash('successMsg', $data['issue_id']. ' has been generated and bill issue saved successfully');
         }
-        return response()->json(['success' => true, 'message' => 'Bill issue saved successfully','data'=>['issue_id'=>$issue_id]], 200);
+        return response()->json(['success' => true, 'message' => 'Bill issue saved successfully', 'data' => ['issue_id' => $data['issue_id']]], 200);
 
     }
 
@@ -83,26 +86,28 @@ class UtilityController extends DashboardController
 
     public function locationHierStore(Request $request)
     {
-        $fillable=[
-            'location_code','location_name','master_location_code','category','location_type','branch_name','contact_name','contact_number','email'
+        $fillable = [
+            'location_code', 'location_name', 'master_location_code', 'category', 'location_type', 'branch_name', 'contact_name', 'contact_number', 'email'
         ];
-        foreach($fillable as $f){
-         $data[$f]=($request[$f]!=null)?$request[$f]:'';
+        foreach ($fillable as $f) {
+            $data[$f] = ($request[$f] != null) ? $request[$f] : '';
         }
         LocationHierarachy::create($data);
         Session::flash('successMsg', 'Location has been added successfully');
         return response()->json(['success' => true, 'message' => 'Location added successfully'], 200);
 
     }
-    public function import(Request $request){
 
-        if(Input::hasFile('import_file')){
+    public function import(Request $request)
+    {
+
+        if (Input::hasFile('import_file')) {
             $path = Input::file('import_file')->getRealPath();
-            $data = Excel::load($path, function($reader) {
+            $data = Excel::load($path, function ($reader) {
             })->get();
-            importCsv($data,'location_hierarchy');
+            importCsv($data, 'location_hierarchy');
         }
-        Session::flash('successMsg','Successfully Imported');
+        Session::flash('successMsg', 'Successfully Imported');
         return back();
 
     }
@@ -269,7 +274,7 @@ class UtilityController extends DashboardController
     public function destroy_employee_information(Request $request, $id)
     {
         $employee_info_delete = User::find($id);
-            User::where('id', '=', $id)->delete();
+        User::where('id', '=', $id)->delete();
         EmployeeParameter::where('user_id', '=', $id)->delete();
         DB::table('role_user')
             ->where('user_id', '=', $id)
@@ -279,30 +284,34 @@ class UtilityController extends DashboardController
         return response()->json(['success' => true, 'message' => 'Employee Information has been deleted successfully'], 200);
 
     }
-    public function changePasswordIndex(){
+
+    public function changePasswordIndex()
+    {
 //        $this->admin_data['user']=User::where('email','=',$request->email)->first();
-        return view('admin.utility.change_password',$this->admin_data);
+        return view('admin.utility.change_password', $this->admin_data);
     }
-    public function changePassword(Request $request){
 
-        if (!(Hash::check($request->get('current-password'),Auth::user()->password))){
-            return redirect()->back()->with('error','Your current password doesnot matches with the password you provided.Please try again');
+    public function changePassword(Request $request)
+    {
+
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+            return redirect()->back()->with('error', 'Your current password doesnot matches with the password you provided.Please try again');
         }
-        if (strcmp($request->get('current-password'),$request->get('new-password'))==0){
-            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+        if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
+            return redirect()->back()->with("error", "New Password cannot be same as your current password. Please choose a different password.");
 
         }
-        $this->validate($request,[
-            'current-password'=>'required',
-            'new-password'=>'required|string|min:6|confirmed',
+        $this->validate($request, [
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:6|confirmed',
         ]);
 
         //Change password
 
-        $user=Auth::user();
-        $user->password=bcrypt($request->get('new-password'));
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
         $user->save();
-        return redirect()->back()->with("success","Password changed successfully !");
+        return redirect()->back()->with("success", "Password changed successfully !");
 
 
     }

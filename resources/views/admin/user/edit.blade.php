@@ -125,6 +125,20 @@
 
                                 </div>
                                 <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="is_member" value="1" {{$user->is_member==1?'checked':''}}> Member
+                                            </label>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
