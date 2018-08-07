@@ -194,6 +194,10 @@
                                         class="fa fa-circle-o"></i>
                                 <span>Bank  Entry</span></a>
                         </li>
+                        <li><a href="{{route('admin.user.bank_account.list',['token'=>$token])}}"><i
+                                        class="fa fa-circle-o"></i>
+                                <span>List</span></a>
+                        </li>
                         <li><a href="{{route('admin.user.bank_account.queryList',['token'=>$token])}}"><i
                                         class="fa fa-circle-o"></i>
                                 <span>Query</span></a>

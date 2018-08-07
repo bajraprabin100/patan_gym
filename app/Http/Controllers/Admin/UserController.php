@@ -442,6 +442,32 @@ class UserController extends DashboardController
         Session::flash('successMsg', 'Content saved successfully');
         return response()->json(['success' => true]);
     }
+    public function bankAccountList()
+    {
+        $this->admin_data['bank_account_list'] = BankAccount::all();
+        return view('admin.user.bank_account_list', $this->admin_data);
+    }
+    public function editBankAccountList($id){
+        $this->admin_data['bank_list'] = BankAccount::where('id','=',$id)->first();
+        return view('admin.user.bank_account_edit', $this->admin_data);
+    }
+    public function updateBankAccountList(Request $request){
+        $bank_account_list = BankAccount::where('id','=',$request->bank_id)->first();
+        $bank_account_list->date =$request->date;
+        $bank_account_list->particular =$request->particular;
+        $bank_account_list->debit_amount =$request->debit_amount;
+        $bank_account_list->credit_amount =$request->credit_amount;
+        $bank_account_list->save();
+        Session::flash('successMsg', 'Bank Account updated successfully');
+        return response()->json(['success'=>true],200);
+    }
+    public function deleteBankAccountList(Request $request){
+        $bank_list = BankAccount::where('id', '=', $request->record_id);
+        $bank_list->delete();
+        Session::flash('successMsg', 'Record Deleted Successfully');
+
+    }
+
     public function bankAccountQuery(){
         return view('admin.user.bank_account_query', $this->admin_data);
 
